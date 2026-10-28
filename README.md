@@ -20,6 +20,8 @@ Bagaimana membagikan data operasional ke pihak luar tanpa membocorkan identitas,
 ## 2. Data
 Data produksi simulasi dibuat oleh `scripts/generate_data.py` dengan identitas palsu dari Faker (seed tetap). Perkiraan ±4.500 baris. Kebocoran (nama di catatan, operator unik) sengaja ditanam. Data asli, mapping key, dan kunci HMAC tidak pernah di-commit.
 
+Versi data: v1. Tanggal dibuat: 28 Okt 2026. Seed: 24260302. Generator: `scripts/generate_data.py`. Hasil v1: 4.500 baris, identitas palsu dari Faker 40.43.0 (id_ID).
+
 ## 3. Analysis
 Rencana: klasifikasi kolom, 5 metode anonymization, uji risiko (baris unik, k minimum, serangan kamus), uji utilitas (KPI, ranking, Pareto, tren). Belum dikerjakan.
 

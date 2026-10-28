@@ -1,0 +1,13 @@
+# Data
+
+Semua data di project ini simulasi (karangan), dibuat oleh generator dengan seed tetap. Tidak ada dataset publik atau data perusahaan, jadi tidak ada masalah lisensi.
+
+| | |
+|---|---|
+| Versi data | v1 |
+| Tanggal dibuat | 28 Okt 2026 |
+| Seed | 24260302 |
+| Cara membuat ulang | `python3 scripts/generate_data.py` (dari folder project) |
+| Hasil v1 | 4.500 baris, identitas palsu dari Faker 40.43.0 (id_ID) |
+
+Isi folder ini tidak di-commit (lihat `.gitignore`). Jejak pembuatan (seed, commit, SHA-256 hasil) dicatat di repo `DataCenter`, folder `simulasi/`. Jika generator, seed, atau versi library berubah, hasil berubah dan versi data harus dinaikkan.
