@@ -1,0 +1,10 @@
+manual_minutes_per_file,files_per_year,hours_saved_per_year,label
+30,12,6.0,estimated
+30,24,12.0,estimated
+30,48,24.0,estimated
+45,12,9.0,estimated
+45,24,18.0,estimated
+45,48,36.0,estimated
+60,12,12.0,estimated
+60,24,24.0,estimated
+60,48,48.0,estimated

@@ -1,0 +1,16 @@
+item,value
+baris produksi,4500
+baris defect_log,6313
+hari kerja,75
+operator (orang),39
+string nama operator berbeda,115
+baris dengan penulisan nama kotor,127
+customer,12
+lot,450
+baris model khusus,1500
+baris model khusus dengan nama customer di kode lot,1500
+catatan bebas dengan identitas,142
+catatan dengan nomor telepon,96
+stasiun,10
+sel stasiun x shift,20
+sel dengan satu operator,1

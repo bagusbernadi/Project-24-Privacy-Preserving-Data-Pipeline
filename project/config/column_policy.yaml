@@ -1,0 +1,43 @@
+# Kebijakan anonymization per kolom (satu file untuk semua file yang dibagikan).
+# class: direct = identitas langsung | quasi = quasi-identifier | sensitive = nilai bisnis/teks bebas | safe = aman
+# method: pseudonymize | mapping_key | generalize | scale | drop | clean_text | keep
+version: 1
+settings:
+  hmac_key_env: ANON_HMAC_KEY              # kunci dibaca dari environment; bila kosong, dari data/private/hmac_key.txt (dibuat otomatis)
+  hmac_key_file: data/private/hmac_key.txt
+  code_prefix_operator: "OP-"
+  code_hex: 8                              # panjang kode HMAC (hex); 8 = 32 bit, tabrakan antar 39 operator dicek dengan assert
+  masked_operator_code: "OP-MASKED"
+  min_operators_per_cell: 2                # sel (stasiun, shift) dengan operator lebih sedikit: kode operator ditutup
+  date_granularity: week                   # day | week | month
+  index_base: 100                          # rata-rata input_qty (seluruh data) = 100
+  index_decimals: 6
+  lot_prefix: "LOT-"
+  note_replacement: "[dihapus]"
+  note_allowlist:                          # catatan bebas hanya lolos bila persis sama dengan frasa ini (default: hapus)
+    - cek ulang
+    - sesuai prosedur
+    - mesin dibersihkan
+    - material baru
+    - normal
+    - tanpa catatan
+tables:
+  production:
+    date:          {class: quasi,     method: generalize,   output: week,          why: "Tanggal harian + shift + stasiun + model menunjuk satu baris; mingguan memberi k minimum 5."}
+    shift:         {class: quasi,     method: keep,         output: shift,         why: "Dibutuhkan untuk analisis shift; tidak cukup menunjuk orang bila operator ditutup."}
+    station:       {class: quasi,     method: keep,         output: station,       why: "Dibutuhkan untuk KPI dan ranking stasiun."}
+    model:         {class: quasi,     method: keep,         output: model,         why: "Dibutuhkan untuk analisis per model."}
+    employee_id:   {class: direct,    method: drop,         output: null,          why: "Nomor karyawan menunjuk orang langsung; kode operator sudah cukup."}
+    operator_name: {class: direct,    method: pseudonymize, output: operator_code, why: "Perlu kode konsisten per orang agar analisis per operator tetap bisa; HMAC-SHA256 dengan kunci rahasia, nama dinormalkan dulu."}
+    lot_no:        {class: direct,    method: mapping_key,  output: lot_code,      why: "Lot harus bisa ditelusuri balik oleh pemilik data; pada model khusus kode lot memuat nama customer."}
+    customer_name: {class: direct,    method: drop,         output: null,          why: "Tidak dibutuhkan analisis; menyebut pelanggan langsung."}
+    input_qty:     {class: sensitive, method: scale,        output: input_index,   why: "Volume absolut itu rahasia bisnis; rasio dan tren cukup untuk analisis."}
+    ng_qty:        {class: sensitive, method: scale,        output: ng_index,      why: "Sama dengan input_qty; ng_rate (rasio) ikut dihitung."}
+    note:          {class: sensitive, method: clean_text,   output: note_clean,    why: "Teks bebas bisa memuat nama, telepon, customer; hanya frasa yang diizinkan (allowlist) yang dipertahankan."}
+  defect_log:
+    date:          {class: quasi,     method: generalize,   output: week,          why: "Sama dengan production."}
+    shift:         {class: quasi,     method: keep,         output: shift,         why: "Sama dengan production."}
+    station:       {class: quasi,     method: keep,         output: station,       why: "Sama dengan production."}
+    model:         {class: quasi,     method: keep,         output: model,         why: "Sama dengan production."}
+    defect_code:   {class: safe,      method: keep,         output: defect_code,   why: "Kode cacat bukan identitas; dibutuhkan untuk Pareto."}
+    qty:           {class: sensitive, method: scale,        output: qty_index,     why: "Skala yang sama dengan production."}

@@ -1,0 +1,14 @@
+metric,scope,before,after,method_set
+Baris unik (rasio),kombinasi terketat,1.0,0.0,Generalisasi + Pseudonymization
+k minimum,kombinasi terketat,1.0,5.0,Generalisasi + Pseudonymization
+Nama operator pulih lewat serangan kamus (rasio),39 operator,1.0,0.0,Pseudonymization HMAC
+Catatan bebas dengan identitas (baris),4500 catatan,142.0,0.0,Hapus info sensitif (allowlist)
+Sel stasiun x shift yang menunjuk satu orang,20 sel,1.0,0.0,Tutup kode operator
+Kode lot yang memuat nama customer (baris),model khusus,1500.0,0.0,Mapping key
+Yield lini,seluruh periode,0.8825811069625273,0.8825811077118465,Skala angka + Generalisasi
+Stasiun dengan ranking NG sama (dari 3 terburuk),3 terburuk,3.0,3.0,Skala angka
+Kode defect dengan peringkat sama (dari 3 teratas),Pareto 3 teratas,3.0,3.0,Skala angka
+Kemiringan tren yield (poin persentase per minggu),mingguan,0.0608066143273903,0.0608066113412638,Generalisasi + Skala angka
+Titik waktu untuk tren,periode data,75.0,15.0,Generalisasi
+Kode lot kembali ke nilai asli (baris dari 4500),mapping key,4500.0,4500.0,Mapping key
+Menit anonymization per file,per file,45.0,0.02,Pipeline otomatis

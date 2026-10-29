@@ -1,0 +1,7 @@
+item,value,unit,label
+"Waktu pipeline per file (median 7 kali jalan, dibulatkan ke atas)",1.0,detik,measured
+Baris yang diproses per file,4500.0,baris,measured
+Waktu anonymization manual di Excel per file,45.0,menit,estimated
+Menit yang digantikan per file,45.0,menit,estimated
+File yang dibagikan per tahun,24.0,file,estimated
+Jam kerja dihemat per tahun,18.0,jam,estimated

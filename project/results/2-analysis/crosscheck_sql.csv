@@ -1,0 +1,27 @@
+check,dataset,sql,pandas,abs_diff,match
+yield lini,asli,0.8825811069625273,0.8825811069625273,0.0,True
+"NG rate stasiun (selisih terbesar, 10 stasiun)",asli,0.0,0.0,0.0,True
+urutan 10 stasiun (sama = 1),asli,1.0,1.0,0.0,True
+urutan 20 kode defect (sama = 1),asli,1.0,1.0,0.0,True
+total qty defect,asli,12139.0,12139.0,0.0,True
+"yield mingguan (selisih terbesar, 15 minggu)",asli,0.0,0.0,0.0,True
+yield per model (selisih terbesar),asli,0.0,0.0,0.0,True
+yield per shift (selisih terbesar),asli,0.0,0.0,0.0,True
+"k minimum, kombinasi terketat",asli,1.0,1.0,0.0,True
+"baris unik, kombinasi terketat",asli,1.0,1.0,0.0,True
+"k minimum, kombinasi QI dasar",asli,75.0,75.0,0.0,True
+"baris unik, kombinasi QI dasar",asli,0.0,0.0,0.0,True
+sel stasiun x shift dengan satu nilai operator,asli,1.0,1.0,0.0,True
+yield lini,anonim,0.8825811077118458,0.8825811077118465,6.661338147750939e-16,True
+"NG rate stasiun (selisih terbesar, 10 stasiun)",anonim,0.0,1.0408340855860843e-16,1.0408340855860843e-16,True
+urutan 10 stasiun (sama = 1),anonim,1.0,1.0,0.0,True
+urutan 20 kode defect (sama = 1),anonim,1.0,1.0,0.0,True
+total qty defect,anonim,5648.228744999994,5648.228745,6.366462912410498e-12,True
+"yield mingguan (selisih terbesar, 15 minggu)",anonim,0.0,3.3306690738754696e-16,3.3306690738754696e-16,True
+yield per model (selisih terbesar),anonim,0.0,9.992007221626409e-16,9.992007221626409e-16,True
+yield per shift (selisih terbesar),anonim,0.0,7.771561172376096e-16,7.771561172376096e-16,True
+"k minimum, kombinasi terketat",anonim,5.0,5.0,0.0,True
+"baris unik, kombinasi terketat",anonim,0.0,0.0,0.0,True
+"k minimum, kombinasi QI dasar",anonim,75.0,75.0,0.0,True
+"baris unik, kombinasi QI dasar",anonim,0.0,0.0,0.0,True
+sel stasiun x shift dengan satu nilai operator,anonim,1.0,1.0,0.0,True

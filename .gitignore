@@ -1,4 +1,12 @@
 # data simulasi dibuat ulang oleh generator (seed tetap); jejaknya dicatat di repo DataCenter/simulasi
-data/*
-!data/README.md
+project/data/raw/
+# rahasia: kunci HMAC dan mapping key TIDAK BOLEH di-commit
+project/data/private/
+project/data/anonymized/
+.env
+.env.*
+*.duckdb
 __pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/

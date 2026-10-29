@@ -1,0 +1,11 @@
+question,check,n_tested,n_pass,result
+Q9,Output sama persis pada dua kali jalan dengan kunci yang sama (file anonim),2,2,lulus
+Q9,Mapping key sama persis pada dua kali jalan dengan kunci yang sama,1,1,lulus
+Q9,Kode operator berubah semua saat kunci diganti (baris dengan kode berbeda),4275,4275,lulus
+Q9,Yield lini sama saat kunci diganti (selisih di bawah 1e-6),1,1,lulus
+Q12,Kode lot dikembalikan ke nilai asli (baris),4500,4500,lulus
+Q12,Kode operator terlihat dikembalikan ke nomor karyawan asli (baris),4275,4275,lulus
+Q12,Indeks produksi dikembalikan ke jumlah asli dengan nilai dasar (baris x kolom),9000,9000,lulus
+Q12,Indeks defect dikembalikan ke jumlah asli (baris),6313,6313,lulus
+Q12,Lot lama tetap memakai kode lama saat ada file baru (lot),450,450,lulus
+Q12,Lot baru mendapat kode baru yang tidak bentrok (lot),1,1,lulus

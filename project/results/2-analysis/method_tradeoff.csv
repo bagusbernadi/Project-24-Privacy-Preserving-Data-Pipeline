@@ -1,0 +1,10 @@
+method,applied_to,risk_measure,risk_before,risk_after,utility_measure,utility_value,reversible,weakness
+Pseudonymization HMAC-SHA256 + kunci,operator_name,Operator yang namanya pulih lewat serangan kamus (rasio),1.0,0.0,Orang yang punya tepat satu kode (rasio),1.0,Tidak tanpa daftar kode,Tetap bisa disambungkan oleh pihak yang punya daftar jaga
+Hash biasa SHA-256 tanpa kunci (pembanding),operator_name,Operator yang namanya pulih lewat serangan kamus (rasio),1.0,1.0,Orang yang punya tepat satu kode (rasio),1.0,Tidak,Tidak aman: daftar nama umum cukup untuk menebak
+Mapping key,lot_no,Baris model khusus yang kode lotnya memuat nama customer,1500.0,0.0,Lot yang tetap bisa dibedakan (rasio),1.0,"Ya, oleh pemegang kunci",Tabel pemetaan harus disimpan terpisah dan tidak ikut dibagikan
+Generalisasi tanggal ke minggu,date,Baris unik pada kombinasi terketat (rasio),1.0,0.0,Titik waktu tren yang tersisa (rasio terhadap harian),0.2,Tidak,Kejadian singkat dalam satu minggu tidak terlihat
+Skala angka (indeks base 100),"input_qty, ng_qty",Nilai asli yang terhitung bila satu nilai asli diketahui (rasio),1.0,1.0,Selisih yield lini (poin),7.493191622742756e-10,"Ya, dengan nilai dasar","Hanya menyamarkan nilai absolut, bukan pengaman penuh"
+Hapus kolom identitas,"employee_id, customer_name",Nilai identitas langsung yang tersisa (jumlah baris x kolom),9000.0,0.0,Kolom yang dihapus (jumlah),2.0,Tidak,Kolom lain bisa bocor lewat teks bebas bila tidak dibersihkan
+Bersihkan catatan: allowlist frasa aman,note,"Catatan dengan nama, telepon, atau customer (baris)",142.0,0.0,Catatan yang berubah (rasio baris),0.03155555555555556,Tidak,Catatan bermanfaat yang tidak ada di daftar ikut terhapus
+Bersihkan catatan: regex nama dan telepon (pembanding),note,"Catatan dengan nama, telepon, atau customer (baris)",142.0,21.0,Catatan yang berubah (rasio baris),0.03155555555555556,Tidak,Nama depan saja dan variasi penulisan lolos dari regex
+Tutup kode operator di sel satu orang,operator_code,Sel stasiun x shift yang menunjuk satu orang,1.0,0.0,Baris tanpa kode operator (rasio),0.05,Tidak,Analisis per operator di sel itu hilang

@@ -1,0 +1,11 @@
+week,shift,station,model,operator_code,lot_code,input_index,ng_index,ng_rate,note_clean
+2026-W10,Shift 1,Frame Welding,Matic 110,OP-xxxxxxxx,LOT-xxxxx,141.450028,1.861185,0.013158,material baru
+2026-W10,Shift 1,Frame Painting,Matic 110,OP-xxxxxxxx,LOT-xxxxx,139.588844,2.791777,0.02,tanpa catatan
+2026-W10,Shift 1,Engine Assembly,Matic 110,OP-xxxxxxxx,LOT-xxxxx,136.797067,0.930592,0.006803,sesuai prosedur
+2026-W10,Shift 1,Wiring Harness Install,Matic 110,OP-xxxxxxxx,LOT-xxxxx,135.866474,0.465296,0.003425,normal
+2026-W10,Shift 1,Wheel & Suspension,Matic 110,OP-xxxxxxxx,LOT-xxxxx,135.401178,0.465296,0.003436,normal
+2026-W10,Shift 1,Body Panel Assembly,Matic 110,OP-xxxxxxxx,LOT-xxxxx,134.935882,1.861185,0.013793,mesin dibersihkan
+2026-W10,Shift 1,Electrical Test,Matic 110,OP-xxxxxxxx,LOT-xxxxx,133.074698,1.861185,0.013986,[dihapus]
+2026-W10,Shift 1,Final Inspection,Matic 110,OP-xxxxxxxx,LOT-xxxxx,131.213513,1.861185,0.014184,material baru
+2026-W10,Shift 1,Performance Test (Dyno),Matic 110,OP-xxxxxxxx,LOT-xxxxx,129.352328,1.395888,0.010791,material baru
+2026-W10,Shift 1,Packing,Matic 110,OP-xxxxxxxx,LOT-xxxxx,127.95644,0.465296,0.003636,normal

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Project 24: Privacy-Preserving Data Sharing Pipeline</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Rancangan project portofolio Data Analyst: pipeline anonymization data produksi perakitan sepeda motor beserta uji risiko identifikasi ulang dan uji utilitas analisis.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap">
+<style>
+/* Layout: tema terang ala Google (single theme, sengaja): latar putih keabuan, kartu putih;
+   biru = struktur, kuning = penanda utama, hijau = info pendukung, merah = aksen.
+   Skala huruf: H1 32 · H2 25 · H3 19 · body 16.5 · keterangan 14 · label 12.5 */
+:root{color-scheme:light;
+--bg:#F8F9FA;--card:#FFFFFF;--sub:#F1F3F4;--line:#DADCE0;
+--ink:#202124;--head:#174EA6;--mut:#5F6368;
+--navy:#1A73E8;--navy-ink:#FFFFFF;--teal:#188038;--amber:#FBBC04;--amber-ink:#3C2A00;--bar:#1A73E8;--soft:#E8F0FE;
+--gb:#4285F4;--gr:#EA4335;--gy:#FBBC04;--gg:#34A853;
+--navyH:#1A73E8;--amberH:#B06000;--tealH:#188038;--plumH:#9334E6;--roseH:#D93025;--skyH:#1967D2;--onph:#fff;
+--f:"Source Sans 3",Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+--h1:clamp(26px,2.6vw,32px);--h2:clamp(21px,2vw,25px);--h3:19px;--body:16.5px;--small:14px;--label:12.5px}
+[hidden]{display:none!important}
+*{box-sizing:border-box}html{scroll-padding-top:64px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--body)/1.6 var(--f)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+main{max-width:880px;margin:0 auto;padding-block:16px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+b,strong{font-weight:700}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);padding:8px 0;display:flex;gap:6px;overflow-x:auto}
+nav a{flex:none;background:var(--card);border:1px solid var(--line);color:var(--ink);text-decoration:none;border-radius:999px;padding:6px 14px;font-size:var(--small);font-weight:600}
+nav a:hover,nav a:focus-visible{background:var(--amber);border-color:var(--amber);color:var(--amber-ink);outline:none}
+.banner{background:var(--navy);color:var(--navy-ink);border-radius:18px;padding:22px 26px}
+.banner h1{margin:0 0 8px;font-size:var(--h1);font-weight:800;line-height:1.2;text-wrap:balance;letter-spacing:-.01em}.banner p{margin:0;font-size:18px;line-height:1.55;opacity:.97}.banner .goal b{font-weight:800}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.tags{align-items:center}.tlab{font-size:var(--small);font-weight:700;margin-right:4px;opacity:.95}
+.tag{border-radius:999px;padding:3px 12px;font-size:var(--label);font-weight:700;background:rgba(255,255,255,.2);letter-spacing:.02em}.tag.a{background:var(--amber);color:var(--amber-ink)}
+.card{border-radius:16px;padding:16px 20px;background:var(--card);border:1px solid var(--line);margin:12px 0}
+.card p{margin:8px 0}
+h2{font-size:var(--h2);font-weight:800;color:var(--head);margin:48px 0 10px;padding-bottom:8px;border-bottom:2px solid var(--line);line-height:1.25;text-wrap:balance}
+h2 small{display:block;font-size:var(--small);font-weight:400;color:var(--mut);margin-top:4px}
+h3{font-size:var(--h3);font-weight:700;color:var(--head);margin:16px 0 6px;line-height:1.3}
+.card h3:first-child,.card>div>h3:first-child{margin-top:4px}
+.add{display:inline-block;vertical-align:middle;margin-left:8px;border-radius:999px;padding:2px 10px;font-size:var(--label);font-weight:700;background:var(--teal);color:#fff}
+.how{background:var(--soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:var(--small);line-height:1.55;color:var(--ink)}.how::before{content:"Cara membaca ";font-weight:700;color:var(--teal)}
+.callout{border-radius:14px;padding:14px 20px;margin:12px 0;font-size:16px}.callout h4{margin:0 0 6px;font-size:var(--h3);font-weight:700}.callout p{margin:6px 0}
+.callout.a{background:var(--amber);color:var(--amber-ink)}.callout.g{background:var(--teal);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.kpis .card{margin:0}
+.kpi .v{font-size:30px;font-weight:800;display:block;line-height:1.15;color:var(--head);font-variant-numeric:tabular-nums}.kpi .l{display:block;font-weight:700;font-size:16px;margin-top:2px}.kpi .d{display:block;font-size:var(--small);line-height:1.4;margin-top:6px;color:var(--mut)}
+.kpi.t{background:var(--teal);border-color:var(--teal);color:#fff}.kpi.am{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}
+.kpi.t .v,.kpi.t .d,.kpi.am .v,.kpi.am .d{color:inherit}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--card);border-radius:12px;overflow:hidden}
+th{background:var(--navy);color:var(--navy-ink);padding:9px 12px;text-align:left;vertical-align:top;font-weight:700}
+td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(odd) td{background:var(--sub)}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:10px 0}
+.q{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:6px 0;display:grid;grid-template-columns:40px 1fr;gap:4px 8px;font-size:16px;line-height:1.45}
+.q .id{font-weight:800;color:var(--head)}.q .m{grid-column:2;font-size:var(--small);color:var(--mut)}
+.pri{display:inline-block;border-radius:999px;padding:1px 9px;font-size:var(--label);font-weight:700;margin-left:6px;background:var(--sub);border:1px solid var(--line);color:var(--mut)}.pri.M{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}.pri.S{background:var(--navy);border-color:var(--navy);color:#fff}
+.theme{font-size:var(--label);font-weight:700;color:var(--teal);margin:20px 0 4px;text-transform:uppercase;letter-spacing:.08em}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0}
+.flow span{border-radius:999px;padding:5px 12px;font-size:var(--small);font-weight:700;background:var(--sub);border:1px solid var(--line)}
+.flow span.ng{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}.flow span.ok{background:var(--teal);border-color:var(--teal);color:#fff}.flow i{font-style:normal;color:var(--mut);font-size:var(--small)}
+.row{display:flex;align-items:center;gap:8px;margin:6px 0;width:100%;font:inherit;font-size:var(--small);color:var(--ink);background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.row .n{width:96px;flex:none;font-weight:600}.row .tr{flex:1;background:var(--sub);border-radius:8px;height:24px;position:relative;overflow:hidden}
+.row .b{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:var(--bar);transition:width .25s}
+.row.sel .b{background:var(--amber)}.row.sel .n{color:var(--head);font-weight:800}
+.row .c{width:58px;text-align:right;flex:none;font-variant-numeric:tabular-nums;font-weight:600}
+.row:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:8px}
+.ctl{display:flex;align-items:center;gap:12px;margin:14px 0 10px;font-weight:700;font-size:15px}.ctl input{flex:1;accent-color:#F2A541}.ctl output{min-width:48px;text-align:right}
+.res{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}.res div{background:var(--sub);border-radius:12px;padding:10px 14px;font-size:var(--small);color:var(--mut)}.res b{display:block;font-size:24px;font-weight:800;color:var(--head);font-variant-numeric:tabular-nums}
+.steps{counter-reset:s;display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.steps li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 54px;position:relative}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px}
+.steps li.L::before{background:var(--amber);color:var(--amber-ink)}
+.steps b.t{display:block;font-size:17px;color:var(--head);line-height:1.3}.steps p{margin:6px 0;font-size:15px;line-height:1.5}.steps .meta{font-size:13px;color:var(--mut)}
+.phase{font-size:var(--label);font-weight:700;color:var(--teal);margin:18px 0 0;text-transform:uppercase;letter-spacing:.08em}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:12px 0}.tools .card{margin:0}
+.tools b{display:block;font-size:var(--h3);color:var(--head)}.tools .r{font-size:15px;margin:6px 0 0}.tools .alt{font-size:var(--small);color:var(--mut);margin:8px 0 0;padding-top:8px;border-top:1px dashed var(--line)}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}summary{cursor:pointer;font-weight:700;font-size:17px;color:var(--head)}details p{font-size:15.5px}
+.pill{border-radius:999px;padding:1px 9px;font-size:var(--label);font-weight:700;background:var(--teal);color:#fff;margin-left:4px}.pill.d{background:var(--sub);border:1px solid var(--line);color:var(--mut)}
+.chip{display:inline-block;border-radius:999px;padding:3px 11px;margin:3px 4px 3px 0;font-size:var(--small);font-weight:600;background:var(--sub);border:1px solid var(--line)}
+.tm{border-bottom:2px dotted var(--amber);background:rgba(242,165,65,.16);border-radius:4px;padding:0 2px;cursor:help}
+#tip{position:fixed;display:none;max-width:320px;white-space:pre-line;background:#202124;color:#fff;padding:10px 12px;border-radius:12px;font-size:var(--small);line-height:1.4;z-index:20;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+ul.tight{margin:6px 0;padding-left:20px}ul.tight li{margin:5px 0}
+.intro>.layout{grid-column:1/-1}
+.layout{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}.layout .lead{margin:4px 0 10px;max-width:90ch}
+.figw{overflow-x:auto;margin:8px 0}.figw svg{display:block;width:100%;min-width:860px;height:auto;font-family:var(--f)}
+.figw .lane{fill:var(--sub)}.figw .box{fill:var(--card);stroke:var(--line);stroke-width:1.5}.figw .box.hi{stroke:var(--bar);stroke-width:2.5}
+.figw text{fill:var(--ink)}.figw .ln{font-size:15px;font-weight:700;fill:var(--head)}.figw .gl{font-size:13px;font-weight:700;fill:var(--teal);letter-spacing:.03em}
+.figw .bt{font-size:13px}.figw .b{font-size:15px;font-weight:700}.figw .st{font-size:13px;fill:var(--mut)}
+.figw .grp{stroke:var(--teal);stroke-width:2}.figw .ar{stroke:var(--bar);stroke-width:2}.figw .ah{fill:var(--bar)}
+.figw .ng,.figw .ngs{stroke:var(--amber);stroke-width:2;stroke-dasharray:5 4}.figw .aha{fill:var(--amber)}.figw .nl{font-size:14px;font-weight:700;fill:var(--amberH)}
+.figw .dt{stroke:var(--mut);stroke-width:2;stroke-dasharray:2 4}
+.figw .okb{fill:var(--teal)}.figw .scb{fill:var(--amber)}.figw .wt{fill:#fff;font-size:14px;font-weight:700}.figw .at{fill:var(--amber-ink);font-size:14px;font-weight:700}
+.figw .mk{fill:var(--amber)}.figw .mt{fill:var(--amber-ink);font-size:14px;font-weight:800}
+.legend{counter-reset:l;list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+.legend li{counter-increment:l;position:relative;padding-left:38px;font-size:15.5px;line-height:1.55}
+.legend li::before{content:counter(l);position:absolute;left:0;top:1px;width:26px;height:26px;border-radius:50%;background:var(--amber);color:var(--amber-ink);font-weight:800;font-size:14px;display:grid;place-items:center}
+@media (min-width:1000px){.legend{grid-template-columns:repeat(4,1fr);gap:16px}}
+.kpi{--h:var(--navyH);background:color-mix(in srgb,var(--h) 11%,var(--card));border-color:color-mix(in srgb,var(--h) 35%,var(--card))}
+.kpi .v{color:var(--h)}.kpi .l{color:var(--ink)}.kpi .d{color:var(--mut)}
+.q[data-p="M"]{background:color-mix(in srgb,var(--amber) 13%,var(--card));border-color:color-mix(in srgb,var(--amber) 60%,var(--card))}
+.q[data-p="S"]{background:color-mix(in srgb,var(--skyH) 9%,var(--card));border-color:color-mix(in srgb,var(--skyH) 35%,var(--card))}
+.q[data-p="N"]{border-style:dashed}
+.q[data-p="M"] .id{color:var(--amberH)}.q[data-p="S"] .id{color:var(--skyH)}.q[data-p="N"] .id{color:var(--mut)}
+.pri.S{background:var(--skyH);border-color:var(--skyH);color:var(--onph)}
+.fbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 0 4px}.fbar span{font-size:var(--small);font-weight:700;color:var(--mut);margin-right:2px}
+.fb{font:inherit;font-size:var(--small);font-weight:700;cursor:pointer;border-radius:999px;padding:6px 14px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.fb i{font-style:normal;opacity:.7;margin-left:4px}.fb:hover{border-color:var(--bar)}.fb:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.fb.on{background:var(--navy);border-color:var(--navy);color:#fff}.fb.on[data-f="M"]{background:var(--amber);border-color:var(--amber);color:var(--amber-ink)}.fb.on[data-f="S"]{background:var(--skyH);border-color:var(--skyH);color:var(--onph)}
+.defs p{margin:0 0 12px}.defs p:last-child{margin:0}
+.fx{display:inline-block;margin:2px 0;padding:1px 9px;border-radius:8px;background:color-mix(in srgb,var(--tealH) 12%,var(--card));border:1px solid color-mix(in srgb,var(--tealH) 40%,var(--card));color:var(--tealH);font-weight:700;font-size:15px;white-space:normal}
+.figw.fl svg{min-width:520px;max-width:1000px;margin:0 auto}.flowfull .card{padding:20px 24px}.flowfull .card>p{text-align:center;margin:12px 0 0}.figw .dia{fill:var(--sub);stroke:var(--bar);stroke-width:2}.figw .b2{font-size:14px;font-weight:700}
+.figw .arT{fill:none;stroke:var(--teal);stroke-width:2}.figw .aht{fill:var(--teal)}.figw .arA{fill:none;stroke:var(--amber);stroke-width:2}.figw .aha2{fill:var(--amber)}
+.figw .lt{font-size:13px;font-weight:700;fill:var(--tealH)}.figw .la{font-size:13px;font-weight:700;fill:var(--amberH)}
+.ph .phase{color:var(--ph);font-size:13.5px}
+.ph .steps li{background:color-mix(in srgb,var(--ph) 8%,var(--card));border-color:color-mix(in srgb,var(--ph) 32%,var(--card))}
+.ph .steps li::before,.ph .steps li.L::before{background:var(--ph);color:var(--onph)}
+.ph .steps b.t{color:var(--ink)}
+.steps li.L::after{content:"beban besar";position:absolute;right:12px;top:12px;font-size:11.5px;font-weight:700;letter-spacing:.03em;padding:1px 8px;border-radius:999px;border:1px solid var(--ph,var(--amber));color:var(--ph,var(--amber))}
+.steps li.L b.t{padding-right:84px}
+.banner{background:linear-gradient(120deg,#1A73E8,#4285F4)}
+h2{border-bottom:3px solid transparent;border-image:linear-gradient(90deg,var(--gb) 0 60px,var(--line) 60px) 1}
+nav a:nth-child(4n+1):hover{background:var(--gb);border-color:var(--gb);color:#fff}nav a:nth-child(4n+2):hover{background:var(--gr);border-color:var(--gr);color:#fff}nav a:nth-child(4n+4):hover{background:var(--gg);border-color:var(--gg);color:#fff}
+.callout.g{background:#E6F4EA;color:#0D652D;border:1px solid #A8DAB5}.callout.g h4{color:#137333}
+.callout.a{background:#FEF7E0;color:#3C2A00;border:1px solid #FDD663}
+.outs{display:grid;gap:12px;margin:12px 0}.outs .card{margin:0}
+.out{--h:var(--navyH);border-top:4px solid var(--h)}
+.out .oh{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.out .oh b{font-size:var(--h3);color:var(--h);line-height:1.3}
+.ob{flex:none;border-radius:999px;padding:1px 9px;font-size:var(--label);font-weight:700;background:var(--amber);color:var(--amber-ink)}.ob.opt{background:var(--sub);border:1px solid var(--line);color:var(--mut)}
+.out ul{margin:8px 0 0;padding-left:18px;font-size:15px;line-height:1.5}.out li{margin:4px 0}
+.out li:nth-last-child(-n+2){color:var(--mut);font-size:14px}
+@media (min-width:700px){.outs{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1280px){.outs{grid-template-columns:repeat(4,1fr)}}
+.tag.c1{background:#188038;color:#fff}.tag.c2{background:#9334E6;color:#fff}.tag.c3{background:#D93025;color:#fff}.tag.c4{background:#fff;color:#1A73E8}
+.sample td:first-child{white-space:nowrap}.src{border-top:1px dashed var(--line);padding-top:8px;font-size:15px}.src code{font-size:13.5px;background:var(--soft);padding:1px 6px;border-radius:6px}.note{font-size:13px;color:var(--mut);margin:6px 0 0}
+.wf{display:grid;gap:4px}
+.wl{--c:var(--navyH);position:relative;background:color-mix(in srgb,var(--c) 8%,var(--card));border:1px solid color-mix(in srgb,var(--c) 30%,var(--card));border-radius:14px;padding:10px 12px 12px}
+.wl h4{margin:0 0 10px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c)}
+.ws{display:grid;gap:22px}
+.wb{position:relative;background:var(--card);border:2px solid var(--c);border-radius:12px;padding:10px 12px 10px 52px;min-height:62px}
+.wb .n{position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--c);color:var(--onph);font-weight:800;font-size:14px;display:grid;place-items:center}
+.wb b{display:block;font-size:15px;line-height:1.3}.wb .s{display:block;font-size:13px;color:var(--mut);margin-top:2px}
+.wb.L::before{content:"beban besar";position:absolute;top:-10px;right:10px;background:var(--amber);color:var(--amber-ink);font-size:11px;font-weight:700;padding:0 8px;border-radius:999px;line-height:18px}
+.wb:not(:last-child)::after{content:"↓";position:absolute;left:50%;bottom:-21px;transform:translateX(-50%);color:var(--c);font-weight:800;font-size:16px;line-height:1}
+.wa{text-align:center;font-weight:800;font-size:20px;color:var(--mut);line-height:1.2}
+.wrow,.wrow1{display:grid;gap:4px}
+.wrow>.wl:first-child{margin-bottom:24px}.wrow>.wl:first-child::after{content:"↓";position:absolute;left:50%;bottom:-24px;transform:translateX(-50%);font-weight:800;font-size:20px;color:var(--mut)}
+@media (min-width:1200px){
+.wrow{grid-template-columns:2fr 3fr;gap:30px}.wrow>.wl:first-child{margin-bottom:0}.wrow>.wl:first-child::after{content:"→";left:auto;right:-24px;bottom:auto;top:50%;transform:translateY(-50%)}
+.wrow1{grid-template-columns:2fr 3fr}
+.ws{grid-template-columns:repeat(var(--k),1fr);gap:26px}
+.wb:not(:last-child)::after{content:"→";left:auto;right:-25px;bottom:auto;top:50%;transform:translateY(-50%)}
+.wl{padding-left:8px;padding-right:8px}.ws{gap:34px}
+.wrow,.wrow1{gap:16px}.wrow>.wl:first-child::after{right:-14px;font-size:16px}
+}
+.docs code{font-size:13.5px;background:var(--soft);padding:1px 6px;border-radius:6px;white-space:nowrap}.docs td:nth-child(3){white-space:nowrap}
+/* layar lebar: nav jadi sidebar, konten dibagi kolom */
+.two{display:grid;gap:0 24px;align-items:start}.two>*{min-width:0}
+.qgrid{display:grid;gap:0 12px}.qgrid>*{min-width:0}
+@media (min-width:1000px){
+main{max-width:1480px}
+.two,.qgrid{grid-template-columns:1fr 1fr}.qgrid .theme{grid-column:1/-1}
+.kpis{grid-template-columns:repeat(6,1fr)}.tools{grid-template-columns:repeat(3,1fr)}
+.intro{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;align-items:start}.intro h3{grid-column:1/-1}.intro>p{grid-column:1}.intro>.scroll{grid-column:2;grid-row:2/span 3;margin-top:8px}
+.phases{display:grid;grid-template-columns:repeat(2,1fr);gap:0 24px}.phases>*{min-width:0}
+}
+@media (min-width:1280px){
+main{display:grid;grid-template-columns:190px minmax(0,1fr);column-gap:32px}
+main>*{grid-column:2}
+main>nav{grid-column:1;grid-row:1/span 60;align-self:start;flex-direction:column;padding-top:16px}
+main>nav a{border-radius:10px;font-size:15px;padding:8px 14px}
+.phases{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:620px){.kpis,.res{grid-template-columns:1fr 1fr}.tools{grid-template-columns:1fr}.row .n{width:78px}.banner{padding:18px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.row .b{transition:none}}
+.row.sim{cursor:default}.row .gh{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:color-mix(in srgb,var(--mut) 28%,var(--card))}
+.row.sim .n{width:170px}.cxb{margin-top:0}@media (max-width:620px){.row.sim .n{width:110px;font-size:13px}}
+.chart svg{display:block;width:100%;height:auto;font-family:var(--f)}.chart .ax{stroke:var(--line)}.chart .tx{font-size:12px;fill:var(--mut)}
+.chart .ln2{fill:none;stroke:var(--bar);stroke-width:2}.chart .th{stroke:var(--amberH);stroke-width:2;stroke-dasharray:6 4}.chart .hb{fill:var(--bar)}.chart .sp{stroke:var(--roseH);stroke-width:2;stroke-dasharray:4 4}
+.chart .dot{fill:var(--roseH)}.chart .inc{fill:color-mix(in srgb,var(--tealH) 14%,var(--card))}.chart .bl{stroke:var(--amberH);stroke-width:2;stroke-dasharray:6 4}
+.row .gh2{position:absolute;left:0;top:0;bottom:0;border-right:3px solid var(--amberH);background:rgba(255,255,255,.35);border-radius:8px 0 0 8px}
+@media (min-width:1200px){.wa{display:grid;grid-template-columns:repeat(5,1fr);gap:34px;padding:0 9px}.wa.r span{grid-column:5}.wa.l span{grid-column:1}
+.ws.rev{direction:rtl}.ws.rev .wb{direction:ltr}.ws.rev .wb:not(:last-child)::after{content:"←";right:auto;left:-25px}}
+.figw .dt2{fill:none;stroke:var(--mut);stroke-width:2;stroke-dasharray:2 4}
+.tab{flex:none;font:inherit;font-size:15px;font-weight:800;cursor:pointer;background:var(--card);border:2px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 16px}
+.tab[data-t=design]{--c:var(--navy)}.tab[data-t=report]{--c:var(--teal)}
+.tab:hover{border-color:var(--c)}.tab.on{background:var(--c);border-color:var(--c);color:#fff}.tab:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.links{display:contents}.links[data-tab=design]{--ac:var(--navy)}.links[data-tab=report]{--ac:var(--teal)}
+.links a{font-size:13.5px;font-weight:600;color:var(--mut);padding:5px 12px}
+.pane code{font-size:.92em;background:var(--sub);border-radius:4px;padding:1px 5px;overflow-wrap:anywhere}
+.pane pre{background:var(--sub);border:1px solid var(--line);border-radius:12px;padding:12px 16px;overflow-x:auto;font-size:14px;line-height:1.5}.pane pre code{background:none;padding:0;overflow-wrap:normal}
+.pill.p{background:var(--amber);color:var(--amber-ink)}
+.callout a{color:inherit;font-weight:700;text-decoration:underline}
+@media (min-width:1280px){
+main>nav{gap:8px}
+.tab{border-radius:12px;font-size:16px;padding:12px 16px;text-align:left;border-left:8px solid var(--c)}
+.links{display:flex;flex-direction:column;gap:2px;margin:0 0 8px 12px;padding-left:12px;border-left:3px solid var(--ac)}
+main>nav .links a{background:none;border:0;border-radius:8px;font-size:14.5px;font-weight:600;color:var(--mut);padding:6px 10px}
+main>nav .links a:hover,main>nav .links a:focus-visible{background:var(--soft);color:var(--head)}
+}
+</style>
+
+</head><body>
+<a href="https://bagusbernadi.github.io/" style="display:inline-block;margin:12px 16px;font:600 14px/1.4 'Source Sans 3',Arial,sans-serif;color:#1A73E8;text-decoration:none">← All projects / Semua project</a>
+<main>
+<nav aria-label="Project navigation"><button type="button" class="tab on" data-t="design" aria-expanded="true" aria-controls="design">Design Project</button><div class="links" data-tab="design"><a href="#s1">Background</a><a href="#s2">Business Questions</a><a href="#s3">Anonymization Methods</a><a href="#s4">Dataset</a><a href="#s5">Tools</a><a href="#s6">Work Plan</a><a href="#s7">Project Outputs</a><a href="#s8">Success Criteria</a><a href="#s9">Assumptions &amp; Limitations</a></div><button type="button" class="tab" data-t="report" aria-expanded="false" aria-controls="report">Report Project</button><div class="links" data-tab="report" hidden><a href="#rp1">Problem</a><a href="#rp2">Data</a><a href="#rp3">Analysis</a><a href="#rp4">Recommendation</a><a href="#rp5">Impact</a><a href="#rp6">Batasan</a></div></nav>
+<header class="banner"><h1>Project 24: Privacy-Preserving Data Sharing Pipeline</h1>
+<p class="goal"><b>Tujuan project:</b> membangun pipeline yang menyamarkan identitas di data produksi (nama operator, kode lot, customer, catatan bebas) dengan metode yang sesuai tiap jenis kolom, lalu membuktikan dengan angka bahwa risiko identifikasi ulang turun sementara hasil analisis (KPI, ranking, Pareto) tetap sama, sehingga data bisa dibagikan ke pihak luar dengan aman.</p>
+<div class="tags"><span class="tlab">Kategori:</span><span class="tag a">Rancangan project</span><span class="tag c1">Perakitan sepeda motor</span><span class="tag c2">Data simulasi (identitas palsu)</span><span class="tag c3">Python + anonymization</span></div></header>
+<div class="pane" id="design" data-tab="design">
+<section class="card intro">
+<h3>Project Introduction</h3>
+<p>Bayangkan sekolah yang ingin mengumumkan hasil ujian di papan pengumuman. Nama siswa diganti nomor peserta, dan hanya wali kelas yang memegang daftar nomor dan nama. Tanggal lahir cukup ditulis tahunnya. Catatan pribadi guru tentang siswa dihapus. Pengunjung tetap bisa melihat kelas mana yang nilainya paling tinggi, tetapi tidak bisa menebak nilai siswa tertentu.</p>
+<p>Masalahnya, kadang satu siswa tetap mudah ditebak. Misalnya hanya ada satu siswa kidal di kelas 3B yang lahir tahun 2010. Karena itu, setelah disamarkan, data perlu diuji: masih adakah baris yang terlalu unik?</p>
+<div class="scroll"><table><tr><th>Di papan pengumuman sekolah</th><th>Di data produksi sepeda motor</th></tr><tr><td>Nama siswa diganti nomor peserta</td><td>Pseudonymization: nama operator diganti kode acak tetap (HMAC)</td></tr><tr><td>Daftar nomor–nama dipegang wali kelas</td><td>Mapping key: tabel pemetaan kode lot, disimpan terpisah</td></tr><tr><td>Tanggal lahir ditulis tahunnya saja</td><td>Generalisasi: tanggal menjadi minggu atau bulan</td></tr><tr><td>Nilai ditulis sebagai peringkat</td><td>Skala angka: output ditulis sebagai indeks, bukan jumlah unit asli</td></tr><tr><td>Catatan pribadi guru dihapus</td><td>Hapus informasi sensitif: nama customer, kontak, catatan bebas</td></tr><tr><td>Masih bisa melihat kelas terbaik</td><td>Uji utilitas: KPI dan ranking stasiun tetap sama</td></tr></table></div>
+<p>Project ini membangun <b>pipeline anonymization</b>: setiap kolom diklasifikasi, diberi perlakuan yang sesuai, lalu hasilnya diuji dari dua sisi, yaitu risiko dan kegunaan. Datanya adalah data simulasi dengan identitas palsu karena data pabrik bersifat rahasia. Kata bergaris bawah putus-putus kuning bisa diklik untuk melihat artinya.</p>
+<div class="layout">
+<h3>Gambaran alur kerja di lini perakitan sepeda motor</h3>
+<p class="lead">Alur ini bisa dibayangkan sebagai tiga jalur. Dua jalur pertama sudah ada di pabrik. Jalur ketiga adalah yang dibangun di project ini.</p>
+<div class="figw"><svg viewBox="0 0 1240 432" role="img" aria-label="Alur kerja: jalur produksi sepeda motor, jalur berbagi data yang saat ini dianonimkan manual, dan jalur pipeline yang mengklasifikasi kolom, menyamarkan, lalu menguji risiko dan utilitas"><defs><marker id="mN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="aha" d="M0 0L10 5L0 10z"/></marker></defs><rect class="lane" x="0" y="8" width="1240" height="130" rx="14"/><rect class="lane" x="0" y="150" width="1240" height="140" rx="14"/><rect class="lane" x="0" y="302" width="1240" height="128" rx="14"/><text class="ln" x="18" y="78">Jalur</text><text class="ln" x="18" y="96">produksi</text><text class="ln" x="18" y="218">Jalur</text><text class="ln" x="18" y="236">berbagi</text><text class="ln" x="18" y="362">Jalur</text><text class="ln" x="18" y="380">data</text><line class="grp" x1="150" x2="1030" y1="40" y2="40"/><text class="gl" x="590" y="32" text-anchor="middle">Lini perakitan sepeda motor</text><rect class="box" x="150" y="52" width="130" height="60" rx="10"/><text class="bt" x="215.0" y="78" text-anchor="middle">Frame</text><text class="bt" x="215.0" y="94" text-anchor="middle">Welding</text><line class="ar" x1="280" x2="296" y1="82" y2="82" marker-end="url(#mN)"/><rect class="box" x="300" y="52" width="130" height="60" rx="10"/><text class="bt" x="365.0" y="78" text-anchor="middle">Engine</text><text class="bt" x="365.0" y="94" text-anchor="middle">Assembly</text><line class="ar" x1="430" x2="446" y1="82" y2="82" marker-end="url(#mN)"/><rect class="box" x="450" y="52" width="130" height="60" rx="10"/><text class="bt" x="515.0" y="78" text-anchor="middle">Main Line</text><text class="bt" x="515.0" y="94" text-anchor="middle">Assembly</text><line class="ar" x1="580" x2="596" y1="82" y2="82" marker-end="url(#mN)"/><rect class="box" x="600" y="52" width="130" height="60" rx="10"/><text class="bt" x="665.0" y="78" text-anchor="middle">Roller</text><text class="bt" x="665.0" y="94" text-anchor="middle">Test</text><line class="ar" x1="730" x2="746" y1="82" y2="82" marker-end="url(#mN)"/><rect class="box" x="750" y="52" width="130" height="60" rx="10"/><text class="bt" x="815.0" y="78" text-anchor="middle">Final</text><text class="bt" x="815.0" y="94" text-anchor="middle">Inspection</text><line class="ar" x1="880" x2="896" y1="82" y2="82" marker-end="url(#mN)"/><rect class="box" x="900" y="52" width="130" height="60" rx="10"/><text class="bt" x="965.0" y="87" text-anchor="middle">Packaging</text><line class="ar" x1="1030" x2="1066" y1="82" y2="82" marker-end="url(#mN)"/><text class="bt" x="1072" y="87">Dealer</text><line class="dt" x1="815.0" x2="815.0" y1="114" y2="198" marker-end="url(#mN)"/><text class="st" x="825.0" y="160">hasil kerja + nama operator tercatat</text><rect class="box" x="593" y="202" width="180" height="56" rx="10"/><text class="bt b" x="683.0" y="225" text-anchor="middle">Data kerja asli</text><text class="st" x="683.0" y="245" text-anchor="middle">nama, lot, customer</text><line class="ar" x1="773" x2="815" y1="230" y2="230" marker-end="url(#mN)"/><rect class="box" x="819" y="202" width="180" height="56" rx="10"/><text class="bt b" x="909.0" y="225" text-anchor="middle">Samarkan manual</text><text class="st" x="909.0" y="245" text-anchor="middle">hapus kolom di Excel</text><line class="ar" x1="999" x2="1041" y1="230" y2="230" marker-end="url(#mN)"/><rect class="box" x="1045" y="202" width="180" height="56" rx="10"/><text class="bt b" x="1135.0" y="225" text-anchor="middle">Dibagikan</text><text class="st" x="1135.0" y="245" text-anchor="middle">vendor, tim lain</text><rect class="box" x="150" y="336" width="210" height="62" rx="10"/><text class="bt b" x="255.0" y="362" text-anchor="middle">Data asli + identitas</text><text class="st" x="255.0" y="382" text-anchor="middle">tidak keluar pabrik</text><line class="ar" x1="360" x2="411" y1="367" y2="367" marker-end="url(#mN)"/><rect class="box hi" x="415" y="336" width="210" height="62" rx="10"/><text class="bt b" x="520.0" y="362" text-anchor="middle">Klasifikasi kolom</text><text class="st" x="520.0" y="382" text-anchor="middle">kebijakan per kolom</text><line class="ar" x1="625" x2="676" y1="367" y2="367" marker-end="url(#mN)"/><rect class="box hi" x="680" y="336" width="210" height="62" rx="10"/><text class="bt b" x="785.0" y="362" text-anchor="middle">Pipeline anonymization</text><text class="st" x="785.0" y="382" text-anchor="middle">5 metode</text><line class="ar" x1="890" x2="941" y1="367" y2="367" marker-end="url(#mN)"/><rect class="box hi" x="945" y="336" width="210" height="62" rx="10"/><text class="bt b" x="1050.0" y="362" text-anchor="middle">Uji risiko + utilitas</text><text class="st" x="1050.0" y="382" text-anchor="middle">sebelum vs sesudah</text><polyline class="dt2" points="1135.0,258 1135.0,296 255.0,296 255.0,332" marker-end="url(#mN)"/><text class="st" x="695" y="290" text-anchor="middle">file yang sama diproses otomatis</text><text class="gl" x="785" y="422" text-anchor="middle">Bagian yang dibangun di project ini</text><line class="grp" x1="415" x2="1155" y1="404" y2="404"/><circle class="mk" cx="130" cy="58" r="13"/><text class="mt" x="130" y="63" text-anchor="middle">1</text><circle class="mk" cx="785.0" cy="140" r="13"/><text class="mt" x="785.0" y="145" text-anchor="middle">2</text><circle class="mk" cx="583" cy="202" r="13"/><text class="mt" x="583" y="207" text-anchor="middle">3</text><circle class="mk" cx="130" cy="342" r="13"/><text class="mt" x="130" y="347" text-anchor="middle">4</text></svg></div>
+<ol class="legend"><li><b>Jalur produksi.</b> Sepeda motor dirakit dan diuji di 10 stasiun. Setiap catatan memuat nama operator, kode lot, model, dan kadang nama customer.</li><li><b>Data tercatat.</b> Catatan ini berguna untuk analisis, tetapi berisi identitas orang dan informasi yang tidak boleh keluar pabrik.</li><li><b>Jalur berbagi.</b> Hari ini data disamarkan manual di Excel sebelum dibagikan. Caranya berbeda-beda tiap orang, dan sering ada kolom yang terlewat.</li><li><b>Jalur data.</b> Setiap kolom diberi kebijakan tetap, pipeline menyamarkannya dengan metode yang sesuai, lalu hasilnya diuji: risiko identifikasi turun, hasil analisis tetap sama.</li></ol>
+</div>
+</section>
+<div class="kpis"><div class="card kpi" style="--h:var(--navyH)"><span class="v">12</span><span class="l">pertanyaan analisis</span><span class="d">Hal yang ingin dijawab, 8 di antaranya prioritas utama (bagian 2).</span></div><div class="card kpi" style="--h:var(--amberH)"><span class="v">5</span><span class="l">ukuran kinerja (KPI)</span><span class="d">Baris unik, k minimum, kecocokan KPI, informasi yang hilang, dan menit per file (bagian 3).</span></div><div class="card kpi" style="--h:var(--tealH)"><span class="v">12</span><span class="l">langkah pengerjaan</span><span class="d">Dari klasifikasi kolom sampai dashboard perbandingan siap ditinjau (bagian 6).</span></div><div class="card kpi" style="--h:var(--plumH)"><span class="v">5</span><span class="l">metode samaran</span><span class="d">Pseudonymization, Mapping Key, Generalisasi, Skala angka, Hapus info sensitif.</span></div><div class="card kpi" style="--h:var(--roseH)"><span class="v">±3 bulan</span><span class="l">periode data</span><span class="d">Data produksi simulasi dengan nama, kontak, dan kode palsu.</span></div><div class="card kpi" style="--h:var(--skyH)"><span class="v">5</span><span class="l">tabel data</span><span class="d">Data asli, kebijakan kolom, data anonim, mapping key, dan hasil evaluasi (bagian 4).</span></div></div>
+<h2 id="s1">1. Background<small>Kenapa tema ini dipilih</small></h2>
+<div class="card two">
+<div><h3>Latar belakang masalah</h3>
+<p>Data operasional sering perlu dibagikan ke vendor, tim lain, atau dipakai untuk portofolio. Di dalamnya ada nama operator, kode lot, nama customer, dan catatan bebas. Akibatnya:</p>
+<ul class="tight"><li>Data dianonimkan manual di Excel dengan cara yang berbeda-beda, dan kolom sensitif bisa terlewat.</li><li>Menghapus nama saja belum cukup: kombinasi tanggal, shift, dan stasiun bisa menunjuk satu orang tertentu.</li><li>Penyamaran yang terlalu keras merusak data, sehingga analisis penerima menjadi salah.</li><li>Tidak ada bukti tertulis bahwa data yang dibagikan aman dan tetap berguna.</li></ul></div>
+<div><h3>Alasan memilih tema ini sebagai portofolio</h3>
+<ul class="tight"><li><b>Dekat dengan kebutuhan nyata.</b> Setiap project portofolio berbasis data kerja butuh versi anonim yang aman. Pipeline ini dipakai langsung untuk project lain.</li><li><b>Menunjukkan skill tata kelola data.</b> Klasifikasi data, metode anonymization, uji risiko (k-anonymity), uji utilitas, dan pengelolaan kunci rahasia.</li><li><b>Tingkat kesulitan menengah.</b> Metodenya tidak rumit, tetapi trade-off risiko dan kegunaan harus dibuktikan dengan angka.</li><li><b>Menjadi alat bantu project lain.</b> Bisa membuat versi anonim data untuk Project 3, Project 19, Project 25, dan project manufaktur lain di portofolio ini.</li></ul></div>
+</div>
+<h2 id="s2">2. Business Questions<small>Satu pertanyaan utama, dipecah menjadi pertanyaan yang lebih kecil</small></h2>
+<div class="callout a"><h4>Pertanyaan utama</h4>Bagaimana membagikan data operasional ke pihak luar tanpa membocorkan identitas, sementara hasil analisisnya tetap sama?</div>
+<p class="how">Pertanyaan utama terlalu besar untuk dijawab sekaligus, jadi dipecah per tema. Label "Utama" berarti wajib dijawab dan dikerjakan lebih dulu. "Pendukung" memperdalam hasil. "Tambahan" dikerjakan jika waktu tersisa. Teks abu-abu di bawah tiap pertanyaan adalah cara menjawabnya.</p>
+<div class="fbar" role="group" aria-label="Filter pertanyaan"><span>Tampilkan:</span><button type="button" class="fb on" data-f="*">Semua <i>12</i></button><button type="button" class="fb" data-f="M">Utama <i>8</i></button><button type="button" class="fb" data-f="S">Pendukung <i>3</i></button><button type="button" class="fb" data-f="N">Tambahan <i>1</i></button></div>
+<div class="qgrid" id="qg">
+<p class="theme">Klasifikasi: kolom mana yang berisiko</p>
+<div class="q" data-p="M"><span class="id">Q1</span><span>Kolom mana yang termasuk identitas langsung, quasi-identifier, sensitif, dan aman?<span class="pri M">Utama</span></span><span class="m">Klasifikasi kolom, kebijakan per kolom</span></div>
+<p class="theme">Risiko: masih bisakah orang ditebak</p>
+<div class="q" data-p="M"><span class="id">Q2</span><span>Berapa persen baris yang unik pada kombinasi quasi-identifier sebelum dan sesudah anonymization?<span class="pri M">Utama</span></span><span class="m">Baris unik, k-anonymity</span></div>
+<div class="q" data-p="M"><span class="id">Q3</span><span>Apakah nama operator bisa ditebak dari kode samaran, misalnya dengan mencoba daftar nama umum?<span class="pri M">Utama</span></span><span class="m">Uji serangan kamus: hash biasa vs HMAC</span></div>
+<div class="q" data-p="S"><span class="id">Q4</span><span>Apakah catatan bebas masih mengandung nama atau nomor telepon setelah dibersihkan?<span class="pri S">Pendukung</span></span><span class="m">Pencarian pola nama dan nomor</span></div>
+<p class="theme">Utilitas: apakah data tetap berguna</p>
+<div class="q" data-p="M"><span class="id">Q5</span><span>Apakah KPI yield, ranking stasiun, dan Pareto defect tetap sama setelah anonymization?<span class="pri M">Utama</span></span><span class="m">Perbandingan sebelum vs sesudah</span></div>
+<div class="q" data-p="M"><span class="id">Q6</span><span>Seberapa besar tren dan korelasi berubah setelah generalisasi tanggal dan skala angka?<span class="pri M">Utama</span></span><span class="m">Selisih tren, korelasi</span></div>
+<div class="q" data-p="S"><span class="id">Q7</span><span>Tingkat generalisasi mana yang memberi risiko rendah tanpa merusak analisis?<span class="pri S">Pendukung</span></span><span class="m">Kurva risiko vs utilitas</span></div>
+<p class="theme">Metode: perlakuan yang tepat</p>
+<div class="q" data-p="M"><span class="id">Q8</span><span>Metode mana yang cocok untuk tiap tipe kolom, dan apa trade-off-nya?<span class="pri M">Utama</span></span><span class="m">Tabel trade-off antar metode</span></div>
+<div class="q" data-p="S"><span class="id">Q9</span><span>Apakah pipeline menghasilkan output yang sama persis jika dijalankan ulang dengan kunci yang sama?<span class="pri S">Pendukung</span></span><span class="m">Uji deterministik</span></div>
+<p class="theme">Dampak: waktu yang dihemat</p>
+<div class="q" data-p="M"><span class="id">Q10</span><span>Berapa menit anonymization manual per file yang digantikan pipeline?<span class="pri M">Utama</span></span><span class="m">Waktu manual vs otomatis</span></div>
+<div class="q" data-p="N"><span class="id">Q11</span><span>Berapa jam kerja per tahun yang bisa dihemat?<span class="pri">Tambahan</span></span><span class="m">File per tahun × menit per file ÷ 60</span></div>
+<p class="theme">Validitas: apakah bisa dibalik oleh yang berhak</p>
+<div class="q" data-p="M"><span class="id">Q12</span><span>Apakah pemegang mapping key bisa mengembalikan kode lot ke nilai aslinya dengan benar 100%?<span class="pri M">Utama</span></span><span class="m">Uji pemulihan mapping key</span></div>
+</div>
+<h2 id="s3">3. Anonymization Methods<span class="add">Komponen tambahan</span><small>Perlakuan apa untuk tiap jenis kolom, dan bagaimana menyeimbangkan risiko dengan kegunaan</small></h2>
+<p class="how">Setiap kolom ditanya tiga hal untuk menentukan perlakuannya. Arahkan kursor atau klik kata yang diberi garis bawah kuning untuk melihat pengertian dan rumusnya.</p>
+<div class="flowfull"><h3>Alur menentukan perlakuan kolom</h3>
+<div class="card"><div class="figw fl"><svg viewBox="0 0 1092 245" role="img" aria-label="Diagram percabangan: jika kolom adalah identitas langsung, diberi pseudonymization atau dihapus; jika quasi-identifier, digeneralisasi atau diberi mapping key; jika nilai sensitif, diberi skala angka; sisanya dibiarkan dan masuk data anonim"><defs><marker id="fN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="fT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="aht" d="M0 0L10 5L0 10z"/></marker><marker id="fA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="aha2" d="M0 0L10 5L0 10z"/></marker></defs><rect class="box" x="8" y="40" width="112" height="50" rx="10"/><text class="b2" x="64" y="62" text-anchor="middle">Satu</text><text class="b2" x="64" y="78" text-anchor="middle">kolom</text><line class="ar" x1="120" x2="148" y1="65" y2="65" marker-end="url(#fN)"/><polygon class="dia" points="150,65 247,25 344,65 247,105"/><text class="b2" x="247" y="70" text-anchor="middle">Identitas langsung?</text><line class="arT" x1="344" x2="380" y1="65" y2="65" marker-end="url(#fT)"/><text class="lt" x="350" y="56">Tidak</text><line class="arA" x1="247" x2="247" y1="105" y2="171" marker-end="url(#fA)"/><text class="la" x="255" y="145">Ya</text><rect class="scb" x="171.0" y="175" width="152" height="56" rx="14"/><text class="at" x="247" y="198" text-anchor="middle">Pseudonymization</text><text class="at" x="247" y="218" text-anchor="middle">atau hapus</text><polygon class="dia" points="384,65 473,25 562,65 473,105"/><text class="b2" x="473" y="70" text-anchor="middle">Quasi-identifier?</text><line class="arT" x1="562" x2="598" y1="65" y2="65" marker-end="url(#fT)"/><text class="lt" x="568" y="56">Tidak</text><line class="arA" x1="473" x2="473" y1="105" y2="171" marker-end="url(#fA)"/><text class="la" x="481" y="145">Ya</text><rect class="scb" x="398.0" y="175" width="150" height="56" rx="14"/><text class="at" x="473" y="198" text-anchor="middle">Generalisasi /</text><text class="at" x="473" y="218" text-anchor="middle">mapping key</text><polygon class="dia" points="602,65 682,25 762,65 682,105"/><text class="b2" x="682" y="70" text-anchor="middle">Nilai sensitif?</text><line class="arT" x1="762" x2="798" y1="65" y2="65" marker-end="url(#fT)"/><text class="lt" x="768" y="56">Tidak</text><line class="arA" x1="682" x2="682" y1="105" y2="171" marker-end="url(#fA)"/><text class="la" x="690" y="145">Ya</text><rect class="scb" x="607.0" y="175" width="150" height="56" rx="14"/><text class="at" x="682" y="198" text-anchor="middle">Skala angka</text><text class="at" x="682" y="218" text-anchor="middle">(indeks)</text><rect class="okb" x="802" y="45" width="130" height="40" rx="20"/><text class="wt" x="867" y="70" text-anchor="middle">Dibiarkan</text><line class="ar" x1="932" x2="958" y1="65" y2="65" marker-end="url(#fN)"/><rect class="box" x="962" y="40" width="122" height="50" rx="10"/><text class="b2" x="1023" y="62" text-anchor="middle">Data</text><text class="b2" x="1023" y="78" text-anchor="middle">anonim</text></svg></div>
+<p>Kebijakan setiap kolom ditulis di satu file konfigurasi, sehingga semua file diperlakukan dengan cara yang sama dan keputusannya bisa diperiksa.</p></div></div>
+<h3>Kenapa menghapus nama saja belum cukup</h3>
+<p class="how">Batang menunjukkan persentase baris yang unik untuk tiga kombinasi quasi-identifier. Batang abu-abu adalah kondisi dengan tanggal harian, batang biru adalah kondisi setelah generalisasi (angka contoh, bukan hasil dari data). Geser slider untuk mengubah tingkat generalisasi tanggal.</p>
+<div class="card"><div id="bars"></div>
+<div class="ctl"><label for="sl">Generalisasi tanggal</label><input id="sl" type="range" min="0" max="3" step="1" value="1"><output id="slo" for="sl">Mingguan</output></div>
+<div class="res"><div>Baris unik (kombinasi terketat)<b id="r1"></b></div><div>k minimum<b id="r2"></b></div><div>Titik data untuk tren<b id="r3"></b></div></div>
+<p id="ins" style="margin:12px 0 0;font-size:15.5px"></p></div>
+<h2 id="s4">4. Dataset<small>Data produksi simulasi dengan identitas palsu buatan Faker</small></h2>
+<div class="two"><div class="card">
+<p><b>Kenapa data simulasi?</b> Menguji anonymization dengan data asli justru berisiko. Program Python membuat data produksi dengan struktur Project 3, lalu menambahkan identitas palsu (nama operator, nomor karyawan, nama customer, nomor telepon) memakai Faker. Kebocoran sengaja ditanam agar pipeline bisa diuji.</p>
+<p><b>Ukuran:</b> 10 stasiun, 3 model, 2 shift, ±25 operator, sekitar 75 hari kerja. Perkiraan ±4.500 baris produksi harian. Jumlah pastinya baru diketahui setelah data dibuat.</p>
+<p class="src"><b>Sumber data:</b> data simulasi buatan sendiri, dibuat oleh skrip <code>scripts/generate_data.py</code> dengan library Faker (Versi: v1, rancangan; Tanggal dibuat: saat Tahap B dikerjakan). Tidak memakai data perusahaan. Jika kelak dipakai pada data kerja, izin perusahaan dicek terlebih dahulu.</p>
+</div>
+<div class="callout g"><h4>Fakta yang sengaja ditanam (ground truth)</h4>
+<p>1. Satu operator menjadi satu-satunya orang di shift malam pada satu stasiun, sehingga mudah ditebak walau namanya disamarkan.</p><p>2. Nama operator dan nomor telepon terselip di kolom catatan bebas pada ±2% baris.</p><p>3. Nama customer muncul di kode lot pada beberapa model khusus.</p><p>4. Satu stasiun dibuat paling sering NG, untuk menguji apakah ranking tetap sama setelah anonymization.</p><p>5. Sekitar 2–3% data kotor: nama dengan spasi ekstra atau huruf besar-kecil berbeda, yang bisa membuat satu orang mendapat dua kode samaran.</p></div></div>
+<h3>Lima tabel yang akan dibuat</h3>
+<p class="how">Data asli dan mapping key hanya ada di komputer pembuat dan tidak pernah di-commit. Yang dibagikan hanya data anonim dan hasil evaluasinya.</p>
+<div class="scroll"><table>
+<tr><th>Tabel</th><th>Isi (1 baris = …)</th><th>Kolom utama</th></tr><tr><td><b>raw_production</b></td><td>Hasil satu stasiun, model, shift, operator, hari (dengan identitas palsu)</td><td>date, shift, station, model, operator_name, employee_id, lot_no, customer_name, input_qty, ng_qty, note</td></tr><tr><td><b>column_policy</b></td><td>Kebijakan satu kolom (tabel referensi)</td><td>column, class (direct / quasi / sensitive / safe), method, params</td></tr><tr><td><b>anonymized_production</b></td><td>Baris yang sama setelah disamarkan</td><td>week, shift, station, model, operator_code, lot_code, input_index, ng_rate</td></tr><tr><td><b>mapping_key</b></td><td>Pasangan kode samaran dan nilai asli (disimpan terpisah)</td><td>column, code, original_value, created_at</td></tr><tr><td><b>evaluation</b></td><td>Satu ukuran risiko atau utilitas, sebelum dan sesudah</td><td>metric, scope, before, after, method_set</td></tr></table></div>
+<div class="two"><div><h3>Contoh isi tabel anonymized_production</h3>
+<div class="scroll"><table class="sample"><tr><th>week</th><th>shift</th><th>station</th><th>operator_code</th><th>input_index</th><th>ng_rate</th></tr><tr><td>2026-W10</td><td>2</td><td>Engine Assembly</td><td>OP-7f3a</td><td>104</td><td>2,1%</td></tr><tr><td>2026-W10</td><td>1</td><td>Roller Test</td><td>OP-c29e</td><td>97</td><td>1,4%</td></tr></table></div>
+<p class="note">Angka karangan, bukan data asli. Tanggal sudah digeneralisasi menjadi minggu, nama operator menjadi kode, dan jumlah input ditulis sebagai indeks (rata-rata = 100).</p></div>
+<div class="card"><p style="margin:0 0 6px"><b>5 metode</b> dan <b>4 kelas kolom</b>:</p>
+<span class="chip">Pseudonymization</span><span class="chip">Mapping Key</span><span class="chip">Generalisasi</span><span class="chip">Skala angka</span><span class="chip">Hapus info sensitif</span><span class="chip">Identitas langsung</span><span class="chip">Quasi-identifier</span><span class="chip">Sensitif</span><span class="chip">Aman</span>
+<p style="margin:10px 0 4px"><b>Contoh kebijakan</b> (usulan awal): operator_name → Pseudonymization (HMAC-SHA256 + kunci rahasia); employee_id dan customer_name → hapus; lot_no → mapping key; date → minggu; input_qty → indeks base 100; note → hapus atau bersihkan pola nama dan nomor telepon; station, model, shift → dibiarkan.</p></div></div>
+<h2 id="s5">5. Tools<small>Alat yang dipakai dan alasannya</small></h2>
+<div class="tools"><div class="card"><b>Python (pandas, hashlib/hmac)</b><p class="r">Menjalankan kebijakan per kolom: HMAC-SHA256 untuk pseudonymization, generalisasi tanggal, skala angka, dan pembersihan teks.</p><p class="alt">Library bawaan Python sudah cukup. Kunci rahasia dibaca dari environment, tidak ditulis di kode.</p></div><div class="card"><b>Faker</b><p class="r">Membuat nama, nomor karyawan, nomor telepon, dan nama customer palsu yang realistis.</p><p class="alt">Data uji terlihat nyata tanpa memakai identitas orang sungguhan.</p></div><div class="card"><b>DuckDB + SQL</b><p class="r">Menghitung KPI, ranking, dan Pareto pada data asli dan data anonim, serta menghitung jumlah baris unik per kombinasi quasi-identifier.</p><p class="alt">Perbandingan sebelum dan sesudah memakai query yang sama persis.</p></div><div class="card"><b>pytest</b><p class="r">Tes otomatis: tidak ada nama asli tersisa, hasil deterministik, mapping key bisa dipulihkan.</p><p class="alt">Membuktikan pipeline aman setiap kali kode diubah.</p></div><div class="card"><b>Streamlit + Plotly</b><p class="r">Dashboard data asli vs data anonim, kurva risiko vs utilitas, dan tabel trade-off metode.</p><p class="alt">Bisa dibuka lewat link. Dashboard publik hanya menampilkan data simulasi.</p></div><div class="card"><b>GitHub + Markdown</b><p class="r">Menyimpan kode, kebijakan kolom, dan README. File .gitignore mencegah data asli dan mapping key ikut ter-commit.</p><p class="alt">Standar industri untuk portofolio.</p></div></div>
+<h2 id="s6">6. Work Plan<small>Setiap tahap punya warna sendiri. Label "beban besar" = langkah yang paling banyak memakan waktu</small></h2>
+<p class="how">Urutannya seperti menyiapkan dokumen untuk dibagikan ke publik: tandai dulu bagian yang rahasia, tentukan cara menutupnya, tutup semuanya dengan cara yang sama, lalu minta orang lain mencoba menebak isinya.</p>
+<h3>Alur tahapan kerja</h3>
+<div class="card"><div class="wf">
+<div class="wrow"><div class="wl" style="--c:var(--navyH)"><h4>Tahap A · Perencanaan</h4><div class="ws" style="--k:2"><div class="wb"><span class="n">1</span><b>Klasifikasi kolom</b><span class="s">Q1</span></div><div class="wb"><span class="n">2</span><b>Kebijakan &amp; ukuran</b><span class="s">column_policy</span></div></div></div><div class="wl" style="--c:var(--tealH)"><h4>Tahap B · Menyiapkan data</h4><div class="ws" style="--k:3"><div class="wb L"><span class="n">3</span><b>Data simulasi + PII palsu</b><span class="s">CSV + ground truth</span></div><div class="wb"><span class="n">4</span><b>Merapikan identitas</b><span class="s">nama konsisten</span></div><div class="wb"><span class="n">5</span><b>Mengamankan kunci</b><span class="s">.gitignore, env</span></div></div></div></div>
+<div class="wa r"><span>↓</span></div>
+<div class="wl" style="--c:var(--plumH)"><h4>Tahap C · Menghitung dan menganalisis</h4><div class="ws rev" style="--k:5"><div class="wb L"><span class="n">6</span><b>Pipeline anonymization</b><span class="s">5 metode</span></div><div class="wb L"><span class="n">7</span><b>Uji risiko</b><span class="s">Q2–Q4</span></div><div class="wb"><span class="n">8</span><b>Uji utilitas</b><span class="s">Q5–Q7</span></div><div class="wb"><span class="n">9</span><b>Tabel trade-off</b><span class="s">Q8, Q9</span></div><div class="wb"><span class="n">10</span><b>Pemulihan &amp; dampak</b><span class="s">Q10–Q12</span></div></div></div>
+<div class="wa l"><span>↓</span></div>
+<div class="wrow1"><div class="wl" style="--c:var(--roseH)"><h4>Tahap D · Menyajikan</h4><div class="ws" style="--k:2"><div class="wb L"><span class="n">11</span><b>Dashboard perbandingan</b><span class="s">link dashboard</span></div><div class="wb"><span class="n">12</span><b>README &amp; finalisasi</b><span class="s">repositori siap</span></div></div></div></div>
+</div>
+<p class="note" style="text-align:center;margin-top:12px">Panah menunjukkan urutan pengerjaan. Angka di kotak sama dengan nomor langkah di bawah.</p></div>
+<div class="phases"><div class="ph" style="--ph:var(--navyH)"><p class="phase">Tahap A · Perencanaan</p>
+<ol class="steps">
+<li><b class="t">Mengklasifikasi kolom</b><p>Menandai setiap kolom sebagai identitas langsung, quasi-identifier, sensitif, atau aman, beserta alasannya (Q1).</p><p class="meta">Hasil: tabel klasifikasi · Alat: Markdown</p></li>
+<li><b class="t">Menyusun kebijakan dan ukuran evaluasi</b><p>Memilih metode per kolom dan menetapkan ukuran risiko (baris unik, k minimum) serta utilitas (KPI, ranking, Pareto).</p><p class="meta">Hasil: column_policy.yaml dan definisi KPI · Alat: YAML, Markdown</p></li>
+</ol></div>
+<div class="ph" style="--ph:var(--tealH)"><p class="phase">Tahap B · Menyiapkan data</p>
+<ol class="steps" style="counter-reset:s 2">
+<li class="L"><b class="t">Membuat data simulasi dengan identitas palsu</b><p>Membuat data produksi dengan struktur Project 3, menambahkan identitas palsu dengan Faker, dan menanam kebocoran.</p><p class="meta">Hasil: file CSV, catatan ground truth · Alat: Python, Faker</p></li>
+<li><b class="t">Merapikan identitas</b><p>Menyeragamkan penulisan nama dan kode agar satu orang tidak mendapat dua kode samaran.</p><p class="meta">Hasil: data mentah bersih · Alat: Python (pandas)</p></li>
+<li><b class="t">Mengamankan kunci dan file rahasia</b><p>Menyimpan kunci HMAC di environment, menyiapkan .gitignore untuk data asli dan mapping key, dan menguji bahwa file itu tidak bisa ter-commit.</p><p class="meta">Hasil: konfigurasi keamanan · Alat: Git</p></li>
+</ol></div>
+<div class="ph" style="--ph:var(--plumH)"><p class="phase">Tahap C · Menghitung dan menganalisis</p>
+<ol class="steps" style="counter-reset:s 5">
+<li class="L"><b class="t">Membangun pipeline anonymization</b><p>Menjalankan kebijakan per kolom: pseudonymization, mapping key, generalisasi, skala angka, dan hapus info sensitif, termasuk pembersihan catatan bebas.</p><p class="meta">Hasil: modul anonymize.py · Alat: Python (hashlib/hmac, pandas)</p></li>
+<li class="L"><b class="t">Menguji risiko identifikasi ulang</b><p>Menghitung baris unik dan k minimum sebelum dan sesudah, mencoba serangan kamus pada hash biasa vs HMAC, dan mencari sisa nama di catatan (Q2–Q4).</p><p class="meta">Hasil: tabel risiko · Alat: DuckDB, Python</p></li>
+<li><b class="t">Menguji utilitas analisis</b><p>Membandingkan KPI, ranking stasiun, Pareto, tren, dan korelasi pada data asli dan anonim untuk beberapa tingkat generalisasi (Q5–Q7).</p><p class="meta">Hasil: tabel utilitas, kurva risiko vs utilitas · Alat: DuckDB, Python</p></li>
+<li><b class="t">Membandingkan metode</b><p>Menyusun tabel trade-off tiap metode dan menguji bahwa output sama persis saat dijalankan ulang dengan kunci yang sama (Q8–Q9).</p><p class="meta">Hasil: tabel trade-off · Alat: Python, pytest</p></li>
+<li><b class="t">Menguji pemulihan dan menghitung dampak</b><p>Mengembalikan kode lot dengan mapping key, lalu menghitung menit dan jam yang dihemat dengan label estimasi (Q10–Q12).</p><p class="meta">Hasil: bagian validasi di README · Alat: Python</p></li>
+</ol></div>
+<div class="ph" style="--ph:var(--roseH)"><p class="phase">Tahap D · Menyajikan</p>
+<ol class="steps" style="counter-reset:s 10">
+<li class="L"><b class="t">Membuat dashboard perbandingan</b><p>Dashboard data asli vs anonim (simulasi), kurva risiko vs utilitas dengan slider tingkat generalisasi, dan tabel trade-off.</p><p class="meta">Hasil: link dashboard · Alat: Streamlit, Plotly</p></li>
+<li><b class="t">Menulis README, rekomendasi, dan finalisasi</b><p>Menulis kebijakan, hasil uji, batasan, dan catatan wajib: mapping key dan kunci tidak masuk GitHub, pseudonymization berbeda dari mapping key, skala angka bukan keamanan penuh.</p><p class="meta">Hasil: repositori GitHub siap ditinjau · Alat: Markdown, GitHub</p></li>
+</ol></div>
+</div>
+<h2 id="s7">7. Project Outputs<span class="add">Komponen tambahan</span><small>Hasil nyata yang bisa dibuka, dibaca, atau dipakai ulang setelah project selesai</small></h2>
+<p class="how">Setiap kartu adalah satu output. Label "Utama" berarti wajib dibuat, "Opsional" dibuat jika waktu tersisa. Setiap output ditujukan untuk pembaca yang berbeda.</p>
+<div class="outs"><div class="card out" style="--h:var(--navyH)"><div class="oh"><b>Pipeline anonymization</b><span class="ob">Utama</span></div><ul><li>Satu perintah untuk menyamarkan file baru sesuai kebijakan kolom.</li><li>Bisa dipakai ulang untuk data project lain.</li><li>Bentuk: modul .py dan column_policy.yaml.</li><li>Untuk: analis yang perlu membagikan data.</li></ul></div><div class="card out" style="--h:var(--roseH)"><div class="oh"><b>Kebijakan per tipe kolom</b><span class="ob">Utama</span></div><ul><li>Aturan perlakuan untuk identitas langsung, quasi-identifier, sensitif, dan aman.</li><li>Disertai alasan dan contoh.</li><li>Bentuk: dokumen Markdown.</li><li>Untuk: atasan dan tim yang menyetujui berbagi data.</li></ul></div><div class="card out" style="--h:var(--tealH)"><div class="oh"><b>Laporan risiko &amp; utilitas</b><span class="ob">Utama</span></div><ul><li>Baris unik, k minimum, dan kecocokan KPI sebelum vs sesudah.</li><li>Tabel trade-off antar metode.</li><li>Bentuk: tabel CSV dan grafik di README.</li><li>Untuk: reviewer yang ingin bukti keamanan.</li></ul></div><div class="card out" style="--h:var(--plumH)"><div class="oh"><b>Dashboard perbandingan</b><span class="ob">Utama</span></div><ul><li>Data asli vs anonim (simulasi), kurva risiko vs utilitas.</li><li>Slider tingkat generalisasi.</li><li>Bentuk: link publik (Streamlit Community Cloud).</li><li>Untuk: pembaca non-teknis.</li></ul></div><div class="card out" style="--h:var(--skyH)"><div class="oh"><b>Pembuat data simulasi</b><span class="ob">Utama</span></div><ul><li>Data produksi dengan identitas palsu dan kebocoran yang ditanam.</li><li>Bentuk: skrip .py dan ground truth .json.</li><li>Untuk: menguji ulang pipeline.</li></ul></div><div class="card out" style="--h:var(--amberH)"><div class="oh"><b>Laporan temuan &amp; rekomendasi</b><span class="ob">Utama</span></div><ul><li>Masalah, metode, hasil uji, batasan, dan dampak.</li><li>Angka dampak diberi label estimasi.</li><li>Bentuk: README di GitHub.</li><li>Untuk: semua pembaca.</li></ul></div><div class="card out" style="--h:var(--navyH)"><div class="oh"><b>Repositori GitHub</b><span class="ob">Utama</span></div><ul><li>Kode, tes, kebijakan, dan .gitignore yang menjaga file rahasia.</li><li>Bentuk: link repositori GitHub.</li><li>Untuk: recruiter dan reviewer portofolio.</li></ul></div><div class="card out" style="--h:var(--tealH)"><div class="oh"><b>Slide presentasi</b><span class="ob opt">Opsional</span></div><ul><li>5–7 slide: risiko, metode, trade-off, hasil uji.</li><li>Bentuk: PDF atau PowerPoint.</li><li>Untuk: presentasi saat wawancara kerja.</li></ul></div></div>
+<h3>Daftar dokumen yang akan dihasilkan</h3>
+<p class="how">Nama file adalah usulan awal dan bisa disesuaikan. Tabel diurutkan menurut tahap pengerjaan (A sampai D). Data asli, mapping key, dan kunci HMAC tidak pernah di-commit.</p>
+<div class="scroll"><table class="docs"><tr><th>Nama dokumen</th><th>Isi</th><th>Tahap</th><th>Label</th></tr><tr><td><code>docs/column_classification.md</code></td><td>Klasifikasi kolom dan alasannya</td><td>Tahap A</td><td><span class="ob">Utama</span></td></tr><tr><td><code>config/column_policy.yaml</code></td><td>Metode dan parameter per kolom</td><td>Tahap A</td><td><span class="ob">Utama</span></td></tr><tr><td><code>docs/metrics.md</code></td><td>Definisi ukuran risiko dan utilitas</td><td>Tahap A</td><td><span class="ob">Utama</span></td></tr><tr><td><code>scripts/generate_data.py</code></td><td>Pembuat data simulasi dengan Faker (seed tetap)</td><td>Tahap B</td><td><span class="ob">Utama</span></td></tr><tr><td><code>data/raw/*.csv</code></td><td>Data simulasi berisi identitas palsu. Tidak di-commit</td><td>Tahap B</td><td><span class="ob">Utama</span></td></tr><tr><td><code>data/ground_truth.json</code></td><td>Kebocoran dan kasus unik yang ditanam</td><td>Tahap B</td><td><span class="ob">Utama</span></td></tr><tr><td><code>.gitignore</code></td><td>Mencegah data asli, mapping key, dan .env ter-commit</td><td>Tahap B</td><td><span class="ob">Utama</span></td></tr><tr><td><code>.env</code></td><td>Kunci HMAC. Tidak di-commit</td><td>Tahap B</td><td><span class="ob">Utama</span></td></tr><tr><td><code>pipeline/anonymize.py</code></td><td>Pipeline anonymization</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>data/private/mapping_key.csv</code></td><td>Mapping key. Tidak di-commit</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>data/anonymized/*.csv</code></td><td>Data anonim yang boleh dibagikan</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>tests/test_anonymize.py</code></td><td>Tes kebocoran, deterministik, dan pemulihan</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>outputs/evaluation.csv</code></td><td>Hasil uji risiko dan utilitas</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>notebooks/analysis.ipynb</code></td><td>Analisis Q1–Q12 dengan grafik</td><td>Tahap C</td><td><span class="ob">Utama</span></td></tr><tr><td><code>dashboard/app.py</code></td><td>Dashboard perbandingan</td><td>Tahap D</td><td><span class="ob">Utama</span></td></tr><tr><td><code>requirements.txt</code></td><td>Daftar library Python</td><td>Tahap D</td><td><span class="ob">Utama</span></td></tr><tr><td><code>README.md</code></td><td>Kebijakan, hasil uji, batasan, dan rekomendasi</td><td>Tahap D</td><td><span class="ob">Utama</span></td></tr><tr><td><code>index.html</code></td><td>Halaman rancangan project ini (GitHub Pages)</td><td>Tahap D</td><td><span class="ob">Utama</span></td></tr><tr><td><code>slides/presentation.pdf</code></td><td>Slide presentasi wawancara</td><td>Tahap D</td><td><span class="ob opt">Opsional</span></td></tr></table></div>
+<h2 id="s8">8. Success Criteria<span class="add">Komponen tambahan</span><small>Kapan project dianggap selesai dan berhasil</small></h2>
+<div class="card">
+<h3>Project dianggap berhasil jika</h3>
+<ul class="tight"><li>Kedelapan pertanyaan berlabel "Utama" terjawab dengan angka dari data.</li><li>Tidak ada satu pun nama, nomor karyawan, nomor telepon, atau nama customer asli yang tersisa di data anonim, termasuk di catatan bebas.</li><li>Kombinasi quasi-identifier terketat memiliki k minimum paling sedikit 5 setelah anonymization.</li><li>KPI yield lini, ranking 3 stasiun terburuk, dan 3 defect teratas sama persis antara data asli dan data anonim.</li><li>Mapping key mengembalikan 100% kode lot ke nilai aslinya, dan tidak ada file rahasia di riwayat repositori.</li><li>Checklist standar terpenuhi: pertanyaan bisnis, data cleaning, analisis SQL, dashboard ter-deploy, README berisi insight dan rekomendasi.</li></ul></div>
+<h2 id="s9">9. Assumptions &amp; Limitations<span class="add">Komponen tambahan</span><small>Keputusan yang sudah diambil dan hal yang perlu diwaspadai</small></h2>
+<div class="two"><div><details open><summary>Jenis data: simulasi dengan identitas palsu <span class="pill">Sudah Anda setujui</span></summary><p>Data produksi dibuat program dengan struktur Project 3, ditambah identitas palsu dari Faker. Tidak ada data orang sungguhan.</p></details><details><summary>Konteks: perakitan sepeda motor <span class="pill">Sudah Anda setujui</span></summary><p>Halaman publik memakai lini perakitan sepeda motor dengan 10 stasiun dan 3 model. Struktur tabel tetap sama dengan Project 3.</p></details><details><summary>Tools: DuckDB + Streamlit <span class="pill">Sudah Anda setujui</span></summary><p>Konsisten dengan project lain. Tools khusus dari daftar portofolio (hashlib/hmac, Faker, pytest) tetap dipakai.</p></details></div>
+<div><details><summary>Ruang lingkup <span class="pill d">Usulan awal</span></summary><p>Data tabel terstruktur saja, belum termasuk gambar, PDF, atau dokumen. Satu kunci HMAC untuk satu periode berbagi data. Belum memakai differential privacy. Tingkat kesulitan: menengah.</p></details><details><summary>Hal yang perlu diwaspadai <span class="pill d">Usulan awal</span></summary><p><b>Pseudonymization berbeda dari mapping key.</b> Kode HMAC tidak bisa dibalik tanpa kunci, sedangkan mapping key memang dibuat untuk bisa dibalik. Keduanya disimpan dan diperlakukan berbeda.</p><p><b>Skala angka bukan keamanan penuh.</b> Indeks hanya menyamarkan nilai absolut. Jika penerima tahu satu nilai asli, nilai lain bisa dihitung.</p><p><b>Anonim di sini belum tentu anonim di tempat lain.</b> Data yang aman sendirian bisa berisiko jika digabung dengan data lain milik penerima.</p><p><b>Aturan perusahaan tetap berlaku.</b> Pipeline membantu teknisnya, tetapi izin berbagi data kerja tetap harus diminta.</p></details></div></div>
+</div>
+
+<div class="pane" id="report" data-tab="report" hidden>
+<div class="callout a"><h4>Status Report Project</h4><p>Laporan hasil diisi setelah analisis dikerjakan. Sudah ditulis: Problem, Data, Analysis, Impact, Batasan. Masih kosong: Recommendation. Rancangan lengkap ada di tab <a href="#design">Design Project</a>.</p></div>
+<div class="scroll"><table><tr><th>Bagian</th><th>Status</th><th>Diisi setelah</th></tr>
+<tr><td><b>Problem</b></td><td><span class="pill">Draft</span></td><td>Sudah ditulis dari rancangan</td></tr>
+<tr><td><b>Data</b></td><td><span class="pill">Draft</span></td><td>Tahap B, langkah 3 sampai 5</td></tr>
+<tr><td><b>Analysis</b></td><td><span class="pill">Draft</span></td><td>Tahap C, langkah 6 sampai 10</td></tr>
+<tr><td><b>Recommendation</b></td><td><span class="pill d">Belum dikerjakan</span></td><td>Tahap D, langkah 11 sampai 12</td></tr>
+<tr><td><b>Impact</b></td><td><span class="pill">Draft</span></td><td>Tahap C, langkah 6 sampai 10</td></tr>
+<tr><td><b>Batasan</b></td><td><span class="pill">Draft</span></td><td>Diperbarui setelah Tahap B (langkah 3 sampai 5)</td></tr>
+</table></div>
+
+<h2 id="rp1">1. Problem<small>Pertanyaan yang ingin dijawab</small></h2>
+<div class="card"><p>Bagaimana membagikan data operasional ke pihak luar tanpa membocorkan identitas, sementara hasil analisisnya tetap sama?</p></div>
+
+<h2 id="rp2">2. Data<small>Sumber, ukuran, dan perlakuan awal</small></h2>
+<div class="card"><p>Data produksi simulasi dibuat oleh <code>scripts/generate_data.py</code> dengan identitas palsu dari Faker (seed tetap). Perkiraan ±4.500 baris. Kebocoran (nama di catatan, operator unik) sengaja ditanam. Data asli, mapping key, dan kunci HMAC tidak pernah di-commit.</p></div>
+
+<h2 id="rp3">3. Analysis<small>Hasil perhitungan dari data</small></h2>
+<div class="card"><p>Rencana: klasifikasi kolom, 5 metode anonymization, uji risiko (baris unik, k minimum, serangan kamus), uji utilitas (KPI, ranking, Pareto, tren). Belum dikerjakan.</p></div>
+
+<h2 id="rp4">4. Recommendation<small>Tindakan yang disarankan dari temuan</small></h2>
+<div class="card"><p>Belum dikerjakan.</p></div>
+
+<h2 id="rp5">5. Impact<small>Seberapa besar manfaatnya</small></h2>
+<div class="card"><p>Belum dikerjakan. Angka dampak akan diberi label <code>estimated</code> / <code>simulated</code>.</p></div>
+
+<h2 id="rp6">6. Batasan yang sudah diketahui<small>Hal yang perlu diwaspadai saat membaca hasil</small></h2>
+<div class="card"><ul class="tight"><li>Pseudonymization (HMAC) berbeda dari mapping key yang memang bisa dibalik.</li><li>Skala angka hanya menyamarkan nilai absolut, bukan keamanan penuh.</li><li>Data yang aman sendirian bisa berisiko jika digabung dengan data lain.</li><li>Izin perusahaan tetap diperlukan untuk data kerja.</li></ul></div>
+</div>
+</main>
+<script>
+const $=id=>document.getElementById(id),pc=v=>String(v).replace('.',',')+'%';
+const L=['Harian','Mingguan','Bulanan','Kuartalan'],Q=['Tanggal + shift','+ stasiun','+ kode operator'],V=[[2,14,46],[0,1,9],[0,0,1.5],[0,0,0.3]],K=[1,2,6,15],TP=[75,15,3,1];
+function draw(){const l=+$('sl').value,v=V[l];
+$('slo').textContent=L[l];
+$('bars').innerHTML=Q.map((q,i)=>`<div class="row sim"><span class="n">${q}</span><span class="tr"><span class="gh" style="width:${V[0][i]/50*100}%"></span><span class="b" style="width:${v[i]/50*100}%"></span></span><span class="c">${pc(v[i])}</span></div>`).join('');
+$('r1').textContent=pc(v[2]);$('r2').textContent=K[l];$('r3').textContent=TP[l]+' titik';
+$('ins').innerHTML=l==0?`Dengan tanggal harian, <b>${pc(v[2])}</b> baris unik pada kombinasi tanggal, shift, stasiun, dan kode operator, sehingga satu orang bisa ditebak walau namanya sudah disamarkan. Geser slider untuk menggeneralisasi tanggal.`:`Dengan tanggal ${L[l].toLowerCase()}, baris unik turun dari ${pc(V[0][2])} menjadi <b>${pc(v[2])}</b> dan setiap kombinasi berisi minimal <b>${K[l]}</b> baris. Harganya, tren hanya punya ${TP[l]} titik data${l>=2?', terlalu sedikit untuk melihat pola mingguan':''}.${K[l]>=5?' Target k minimum 5 tercapai.':' Target k minimum 5 belum tercapai.'}`}
+$('sl').oninput=draw;draw();
+const G=[["anonymization","i","Proses menyamarkan data agar orang atau pihak tertentu tidak bisa dikenali, sementara data tetap bisa dianalisis."],["Pseudonymization","i","Mengganti identitas dengan kode tetap. Orang yang sama selalu mendapat kode yang sama, tetapi namanya tidak terlihat."],["HMAC","","Hash-based Message Authentication Code: cara membuat kode dari teks memakai kunci rahasia. Tanpa kunci, kode tidak bisa ditebak dengan mencoba daftar nama.\nRumus: kode = HMAC-SHA256(kunci rahasia, nama)."],["Mapping Key","i","Tabel pasangan kode samaran dan nilai asli, disimpan terpisah, agar pemegangnya bisa mengembalikan data ke bentuk aslinya."],["Generalisasi","i","Membuat nilai kurang rinci, misalnya tanggal menjadi minggu atau bulan."],["Skala angka","i","Menulis angka sebagai indeks, bukan nilai asli.\nRumus: indeks = nilai ÷ rata-rata × 100.\nContoh: input 520 dengan rata-rata 500 menjadi indeks 104."],["quasi-identifier","i","Kolom yang sendirian tidak menunjuk orang, tetapi kombinasinya bisa, misalnya tanggal + shift + stasiun."],["identitas langsung","i","Kolom yang langsung menunjuk orang, misalnya nama atau nomor karyawan."],["k-anonymity","i","Ukuran keamanan: setiap kombinasi quasi-identifier harus dimiliki minimal k baris, sehingga satu orang bersembunyi di antara k orang lain."],["k minimum","i","Jumlah baris paling sedikit dari semua kombinasi quasi-identifier.\nRumus: k minimum = min(jumlah baris per kombinasi).\nContoh: k = 1 berarti ada baris yang unik dan mudah ditebak."],["baris unik","i","Baris yang kombinasi quasi-identifier-nya tidak dimiliki baris lain.\nRumus: % baris unik = baris dengan kombinasi tunggal ÷ total baris."],["utilitas","i","Seberapa berguna data setelah disamarkan, diukur dari kesamaan hasil analisis dengan data asli."],["serangan kamus","i","Cara menebak isi hash dengan mencoba daftar nilai umum, misalnya daftar nama orang Indonesia."],["hash","i","Kode tetap yang dibuat dari sebuah teks. Hash biasa tanpa kunci bisa ditebak dengan serangan kamus."],["Faker","","Library Python untuk membuat data palsu yang realistis, seperti nama, alamat, dan nomor telepon."],["PII","","Personally Identifiable Information: informasi yang bisa menunjuk orang tertentu."],["deterministik","i","Selalu menghasilkan output yang sama untuk input dan kunci yang sama."],["yield","i","Persentase produk yang lolos dibanding produk yang masuk (input)."],["Pareto","i","Cara mengurutkan masalah dari yang paling sering (aturan 80/20)."],["KPI","","Key Performance Indicator: angka kunci untuk menilai kinerja."],["SQL","","Bahasa untuk meminta dan mengolah data dari tabel database."],["DuckDB","i","Database ringan dalam satu file, untuk menjalankan SQL tanpa server."],["dashboard","i","Halaman ringkasan interaktif berisi grafik dan angka kunci."],["Streamlit","i","Alat untuk membuat dashboard web memakai Python."],[".gitignore","","File yang berisi daftar file yang tidak boleh ikut masuk ke repositori Git."],["environment","i","Pengaturan di luar kode, tempat menyimpan kunci rahasia agar tidak tertulis di file program."],["ground truth","i","Fakta yang sengaja ditanam di data simulasi untuk memeriksa apakah analisis berhasil menemukannya."],["data simulasi","i","Data buatan komputer yang meniru kondisi nyata, bukan hasil pencatatan di pabrik."],["trade-off","i","Pertukaran: mendapatkan satu hal dengan mengorbankan hal lain, misalnya keamanan lebih tinggi tetapi detail data berkurang."],["pytest","","Alat untuk menulis dan menjalankan tes otomatis pada kode Python."],["README","","Dokumen penjelasan project yang dibaca pertama kali di repositori GitHub."]];
+const TERMS=G.map(([t,f,d])=>({t,d,re:new RegExp('(?<![\\w-])'+t.replace(/[.*+?^${}()|[\]\\-]/g,'\\$&')+'(?![\\w-])',f)}));
+const SK='svg,.fx,.fbar,.oh,.wb,table td:first-child,h1,h2,h3,nav,button,script,style,summary,.tm,.tag,.pri,.pill,.v,.l,.chip,.flow,th,#tip,.banner,.theme,.phase,.add,.tools b,b.t,code,.row,.res';
+function wrapT(n,seen){let b=null;for(const x of TERMS){if(seen.has(x.t))continue;const m=x.re.exec(n.data);if(m&&(!b||m.index<b.i||(m.index==b.i&&m[0].length>b.l)))b={x,i:m.index,l:m[0].length}}
+if(!b)return;seen.add(b.x.t);const r=n.splitText(b.i),a=r.splitText(b.l),s=document.createElement('span');s.className='tm';s.tabIndex=0;s.dataset.d=b.x.d;s.textContent=r.data;r.replaceWith(s);wrapT(a,seen)}
+function hl(root,seen){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest(SK)?3:1}),ns=[];while(w.nextNode())ns.push(w.currentNode);ns.forEach(n=>wrapT(n,seen))}
+const tip=document.createElement('div');tip.id='tip';tip.setAttribute('role','tooltip');document.body.appendChild(tip);
+function showT(e){tip.textContent=e.dataset.d;tip.style.display='block';const r=e.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;tip.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left))+'px';tip.style.top=(r.bottom+h+12>innerHeight?r.top-h-6:r.bottom+6)+'px'}
+document.addEventListener('click',ev=>{const t=ev.target.closest('.tm');t?showT(t):tip.style.display='none'});
+document.addEventListener('mouseover',ev=>{const t=ev.target.closest('.tm');if(t)showT(t)});
+document.addEventListener('mouseout',ev=>{if(ev.target.closest&&ev.target.closest('.tm'))tip.style.display='none'});
+document.addEventListener('focusin',ev=>{const t=ev.target.closest&&ev.target.closest('.tm');if(t)showT(t)});
+addEventListener('scroll',()=>tip.style.display='none',{passive:true});
+const qg=document.getElementById('qg'),qbar=document.querySelector('.fbar[aria-label="Filter pertanyaan"]');qbar.onclick=e=>{const b=e.target.closest('.fb');if(!b)return;const f=b.dataset.f;
+qbar.querySelectorAll('.fb').forEach(x=>x.classList.toggle('on',x==b));let th=null,vis=0;
+[...qg.children].forEach(el=>{if(el.classList.contains('theme')){if(th)th.hidden=!vis;th=el;vis=0}else{const show=f=='*'||el.dataset.p==f;el.hidden=!show;if(show)vis++}});if(th)th.hidden=!vis};
+let seen=new Set();document.querySelectorAll('main>.pane>*').forEach(el=>{if(el.tagName=='H2')seen=new Set();hl(el,seen)});
+
+const TB=[...document.querySelectorAll('.tab')];
+function setTab(t){document.querySelectorAll('.pane,.links').forEach(e=>e.hidden=e.dataset.tab!==t);TB.forEach(x=>{const on=x.dataset.t===t;x.classList.toggle('on',on);x.setAttribute('aria-expanded',on)})}
+function route(){const h=decodeURIComponent(location.hash.slice(1)),el=h&&document.getElementById(h);
+if(h=='design'||h=='report'){setTab(h);scrollTo(0,0);return}
+if(el){const p=el.closest('.pane');if(p){setTab(p.dataset.tab);el.scrollIntoView()}}}
+TB.forEach(x=>x.onclick=()=>{location.hash=x.dataset.t});
+addEventListener('hashchange',route);route();
+</script>
+</body></html>

@@ -1,0 +1,3 @@
+scheme,distinct_codes,persons,persons_with_multiple_codes,max_codes_per_person
+HMAC pada nama apa adanya,115,39,38,4
+HMAC pada nama yang dinormalkan (dipakai pipeline),39,39,0,1

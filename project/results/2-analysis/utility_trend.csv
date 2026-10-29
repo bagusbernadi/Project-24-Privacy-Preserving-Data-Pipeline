@@ -1,0 +1,9 @@
+metric,raw,anon
+"Kemiringan tren yield lini, deret mingguan (poin persentase per minggu)",0.060806614327390304,0.06080661134126388
+"Kemiringan tren yield lini, deret harian dikali 5 (asli) vs mingguan (anonim)",0.06098937648503299,0.06080661134126388
+"Korelasi Pearson yield mingguan (asli mingguan = 1,0)",1.0,0.9999999999999866
+Korelasi Pearson input vs NG per baris,0.19401824652463742,0.1940182453045238
+"Korelasi Pearson NG rate stasiun x model (asli = 1,0)",1.0,0.9999999999999958
+"Yield lini terendah (asli: harian, anonim: mingguan)",0.8562783661119516,0.8768537374574772
+"Yield lini tertinggi (asli: harian, anonim: mingguan)",0.9106382978723404,0.8895003629376671
+Jumlah titik waktu untuk tren,75.0,15.0

@@ -1,0 +1,4 @@
+combo,columns,n_rows,groups_before,pct_unique_before,k_min_before,groups_after,pct_unique_after,k_min_after,k_target_met
+QI dasar,shift + station + model,4500,60,0.0,75,60,0.0,75,True
+QI + waktu,tanggal/minggu + shift + station + model,4500,4500,1.0,1,900,0.0,5,True
+QI + waktu + operator (terketat),tanggal/minggu + shift + station + model + operator,4500,4500,1.0,1,900,0.0,5,True

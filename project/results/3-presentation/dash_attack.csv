@@ -1,0 +1,4 @@
+scheme,candidates,operators_attacked,recovered,recovery_rate
+SHA-256 tanpa kunci (hash biasa),19462,39,39,1.0
+"HMAC-SHA256 dengan kunci rahasia, penyerang memakai hash biasa",19462,38,0,0.0
+"HMAC-SHA256 dengan kunci rahasia, penyerang menebak 6 kunci umum",116772,38,0,0.0

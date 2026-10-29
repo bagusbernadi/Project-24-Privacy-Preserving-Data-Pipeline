@@ -1,0 +1,18 @@
+table,column,class,method,output,why,n_unique,pct_null,rows_with_identity
+production,date,quasi,generalize,week,Tanggal harian + shift + stasiun + model menunjuk satu baris; mingguan memberi k minimum 5.,75,0.0,
+production,shift,quasi,keep,shift,Dibutuhkan untuk analisis shift; tidak cukup menunjuk orang bila operator ditutup.,2,0.0,
+production,station,quasi,keep,station,Dibutuhkan untuk KPI dan ranking stasiun.,10,0.0,
+production,model,quasi,keep,model,Dibutuhkan untuk analisis per model.,3,0.0,
+production,employee_id,direct,drop,(dihapus),Nomor karyawan menunjuk orang langsung; kode operator sudah cukup.,39,0.0,4500
+production,operator_name,direct,pseudonymize,operator_code,"Perlu kode konsisten per orang agar analisis per operator tetap bisa; HMAC-SHA256 dengan kunci rahasia, nama dinormalkan dulu.",115,0.0,4500
+production,lot_no,direct,mapping_key,lot_code,Lot harus bisa ditelusuri balik oleh pemilik data; pada model khusus kode lot memuat nama customer.,450,0.0,1500
+production,customer_name,direct,drop,(dihapus),Tidak dibutuhkan analisis; menyebut pelanggan langsung.,12,0.0,4500
+production,input_qty,sensitive,scale,input_index,Volume absolut itu rahasia bisnis; rasio dan tren cukup untuk analisis.,217,0.0,
+production,ng_qty,sensitive,scale,ng_index,Sama dengan input_qty; ng_rate (rasio) ikut dihitung.,16,0.0,
+production,note,sensitive,clean_text,note_clean,"Teks bebas bisa memuat nama, telepon, customer; hanya frasa yang diizinkan (allowlist) yang dipertahankan.",114,0.0,142
+defect_log,date,quasi,generalize,week,Sama dengan production.,75,0.0,
+defect_log,shift,quasi,keep,shift,Sama dengan production.,2,0.0,
+defect_log,station,quasi,keep,station,Sama dengan production.,10,0.0,
+defect_log,model,quasi,keep,model,Sama dengan production.,3,0.0,
+defect_log,defect_code,safe,keep,defect_code,Kode cacat bukan identitas; dibutuhkan untuk Pareto.,20,0.0,
+defect_log,qty,sensitive,scale,qty_index,Skala yang sama dengan production.,9,0.0,

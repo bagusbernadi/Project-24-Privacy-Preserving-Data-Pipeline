@@ -1,0 +1,4 @@
+method,rows,rows_with_identity,rows_phone,rows_name,rows_customer,rows_text_unchanged
+Tanpa pembersihan (data asli),4500,142,96,101,46,4500
+Regex: telepon + nama lengkap + customer yang dikenal,4500,21,0,21,0,4358
+Allowlist frasa aman (dipakai pipeline),4500,0,0,0,0,4358

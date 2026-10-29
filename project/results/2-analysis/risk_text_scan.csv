@@ -1,0 +1,5 @@
+stage,table,text_columns,name_hits,phone_hits,employee_id_hits,customer_hits,rows_hit
+sebelum,production,"date,shift,station,model,employee_id,operator_name,lot_no,customer_name,note",5901,96,4500,5606,14902
+sebelum,defect_log,"date,shift,station,model,defect_code",0,0,0,0,0
+sesudah,production,"week,shift,station,model,operator_code,lot_code,note_clean",0,0,0,0,0
+sesudah,defect_log,"week,shift,station,model,defect_code",0,0,0,0,0

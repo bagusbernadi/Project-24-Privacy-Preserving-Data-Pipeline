@@ -1,0 +1,11 @@
+rank,station_raw,ng_rate_raw,station_anon,ng_rate_anon,same_station
+1,Frame Painting,0.0316639741518578,Frame Painting,0.031663974244934,True
+2,Electrical Test,0.0143045658485088,Electrical Test,0.0143045649911575,True
+3,Performance Test (Dyno),0.0124932512687614,Performance Test (Dyno),0.0124932500150973,True
+4,Body Panel Assembly,0.0124068185372465,Body Panel Assembly,0.0124068173507715,True
+5,Frame Welding,0.0120620610938074,Frame Welding,0.0120620600312627,True
+6,Engine Assembly,0.0115064559509003,Engine Assembly,0.0115064549427396,True
+7,Wheel & Suspension,0.0098790156082252,Wheel & Suspension,0.0098790142114555,True
+8,Wiring Harness Install,0.0091138774382946,Wiring Harness Install,0.0091138757813685,True
+9,Final Inspection,0.0081396594195137,Final Inspection,0.0081396580055148,True
+10,Packing,0.0022962614676391,Packing,0.0022962607740286,True

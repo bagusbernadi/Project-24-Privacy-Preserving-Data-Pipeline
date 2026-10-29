@@ -1,0 +1,21 @@
+station,shift,operators_before,codes_visible_after,masked,single_person_identifiable_before,single_person_identifiable_after
+Body Panel Assembly,Shift 1,2,2,False,False,False
+Body Panel Assembly,Shift 2,2,2,False,False,False
+Electrical Test,Shift 1,2,2,False,False,False
+Electrical Test,Shift 2,2,2,False,False,False
+Engine Assembly,Shift 1,2,2,False,False,False
+Engine Assembly,Shift 2,2,2,False,False,False
+Final Inspection,Shift 1,2,2,False,False,False
+Final Inspection,Shift 2,2,2,False,False,False
+Frame Painting,Shift 1,2,2,False,False,False
+Frame Painting,Shift 2,2,2,False,False,False
+Frame Welding,Shift 1,2,2,False,False,False
+Frame Welding,Shift 2,2,2,False,False,False
+Packing,Shift 1,2,2,False,False,False
+Packing,Shift 2,2,2,False,False,False
+Performance Test (Dyno),Shift 1,2,2,False,False,False
+Performance Test (Dyno),Shift 2,1,0,True,True,False
+Wheel & Suspension,Shift 1,2,2,False,False,False
+Wheel & Suspension,Shift 2,2,2,False,False,False
+Wiring Harness Install,Shift 1,2,2,False,False,False
+Wiring Harness Install,Shift 2,2,2,False,False,False

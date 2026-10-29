@@ -1,0 +1,6 @@
+granularity,time_points,pct_unique,k_min,k_median,trend_corr_weekly,max_abs_error_yield,k_target_met
+Harian,75,1.0,1,1.0,1.0,0.0,False
+Mingguan,15,0.0,5,5.0,1.0,0.0,True
+Dua mingguan,8,0.0,5,5.0,0.8990776122331395,0.0032909757748924,True
+Bulanan,4,0.0,5,10.0,0.7978754758798172,0.0041819556434335,True
+Seluruh periode,1,0.0,35,40.0,0.0,0.0069192550939535,True

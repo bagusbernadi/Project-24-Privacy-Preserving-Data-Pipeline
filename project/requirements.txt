@@ -1,0 +1,12 @@
+pandas>=2.0
+numpy
+duckdb>=1.0
+pyyaml
+Faker
+matplotlib
+streamlit>=1.50
+plotly>=5.20
+nbformat
+nbclient
+ipykernel
+pytest
